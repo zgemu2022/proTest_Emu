@@ -10,7 +10,7 @@
 #include <sys/shm.h>
 #include <fcntl.h>
 #include "IEC61850_type.h"
-#include "threads.h"
+#include "threads_ems.h"
 #include "command.h"
 #include "sys.h"
 
