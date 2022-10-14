@@ -1,5 +1,5 @@
 
-#include "threads.h"
+#include "threads_bams.h"
 #include "sys.h"
 #include <stdio.h>
 #include <sys/time.h>
