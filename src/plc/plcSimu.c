@@ -10,6 +10,9 @@
 #include <arpa/inet.h>
 #include <sys/time.h>
 #include <sys/types.h>
+// #include <pthread.h>
+#include "sys.h"
+#include "threads_plc.h"
 
 #define MAXBUF 1024
 typedef struct{
@@ -19,8 +22,12 @@ typedef struct{
 
 CONF server_conf = {{"192.168.3.230"},502};
 int waitFlag;
-int main(int argc, char **argv)
+
+
+
+void *serial_thread_plc(void)
 {
+    printf("PLC 测试线程 启动 \n");
     int sockfd, new_fd,i;
     socklen_t len;
     struct sockaddr_in my_addr, their_addr;
@@ -40,7 +47,7 @@ int main(int argc, char **argv)
     // create an new socket
     if ((sockfd = socket(PF_INET, SOCK_STREAM, 0)) == -1) 
     {
-        perror("socket");
+        perror("PLC socket");
         exit(1);
     }
 
@@ -51,7 +58,7 @@ int main(int argc, char **argv)
 
     if (bind(sockfd, (struct sockaddr *) &my_addr, sizeof(struct sockaddr)) == -1) 
     {
-        perror("bind");
+        perror("PLC bind");
         exit(1);
     }
 
@@ -60,19 +67,19 @@ int main(int argc, char **argv)
         perror("listen");
         exit(1);
     }
-    printf("\n服务器已打开监听...  ip:%s,port:%d\n", server_conf.server_ip, server_conf.port);
+    printf("\nPLC 服务器已打开监听...  ip:%s,port:%d\n", server_conf.server_ip, server_conf.port);
     while (1) 
     {
         len = sizeof(struct sockaddr);
 	
         if ((new_fd = accept(sockfd, (struct sockaddr *) &their_addr, &len)) == -1) 
 	{
-            perror("accept");
+            perror("PLC accept");
             exit(errno);
         } 
         else
 	{
-            printf("server: got connection from %s, port %d, socket %d\n", inet_ntoa(their_addr.sin_addr), ntohs(their_addr.sin_port), new_fd);
+            printf("PLC server: got connection from %s, port %d, socket %d\n", inet_ntoa(their_addr.sin_addr), ntohs(their_addr.sin_port), new_fd);
 	}
 	
         // 开始处理每个新连接上的数据收发
@@ -103,12 +110,12 @@ int main(int argc, char **argv)
 	    
             if (retval == -1) 
 	    {
-                printf("将退出，select出错！ %s", strerror(errno));
+                printf("PLC 将退出，select出错！ %s", strerror(errno));
                 break;
             } 
             else if (retval == 0) 
 	    {
-                printf("没有任何消息到来，用户也没有按键，继续等待……\n");
+                printf("PLC 没有任何消息到来，继续等待……\n");
                 continue;
             } 
             else 
@@ -121,7 +128,7 @@ int main(int argc, char **argv)
                 len = recv(new_fd, buf, MAXBUF, 0);
                 if (len > 0)
                 {
-                    printf("接收到的数据为：");
+                    printf("PLC  接收到的数据为：");
                     for(i=0;i<len;i++){
                         printf("%#x ",buf[i]);
                     }
@@ -138,7 +145,7 @@ int main(int argc, char **argv)
                         len = send(new_fd, buf, 11, 0);
                     }
                     if(len>0){
-                        printf("发送的数据为：");
+                        printf("PLC 发送的数据为：");
                         for (i = 0; i < len; i++)
                         {
                             printf("%#x ", buf[i]);
@@ -149,9 +156,9 @@ int main(int argc, char **argv)
                 else
                 {
                     if (len < 0)
-                        printf("消息接收失败！错误代码是%d，错误信息是'%s'\n", errno, strerror(errno));
+                        printf("PLC  消息接收失败！错误代码是%d，错误信息是'%s'\n", errno, strerror(errno));
                     else
-                        printf("对方退出了，聊天终止\n");
+                        printf("PLC 对方退出了，聊天终止\n");
 						close(new_fd);
                     break;
                 }
@@ -165,5 +172,23 @@ int main(int argc, char **argv)
        
         // 处理每个新连接上的数据收发结束
     close(sockfd);
-    return 0;
+}
+
+void CreateThreads_PLC(void)
+{
+    printf("进入PLC 测试");
+    pthread_t ThreadID;
+    pthread_attr_t Thread_attr;
+    int i;
+    for (i = 0; i < 1; i++)
+    {
+        if (FAIL == CreateSettingThread(&ThreadID, &Thread_attr, (void *)serial_thread_plc, NULL, 1, 1))
+        {
+            printf("PLC CONNECT THTREAD CREATE ERR!\n");
+
+            exit(1);
+        }
+    }
+
+    printf("MODBUS THTREAD CREATE success!\n");
 }

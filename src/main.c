@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include "threads_bams.h"
 #include "threads_ems.h"
+#include "threads_plc.h"
 
 PARA_BAMS para_bms = {1, {9600, 9600}, {0, 1}, {6, 14}};
 int main(int argc, char *argv[])
@@ -18,6 +19,7 @@ int main(int argc, char *argv[])
 		printf("argv[%d] is %s\n", i, argv[i]);
 	CreateThreads_BAMS((void *)&para_bms);
 	CreateThreads_ems();
+	CreateThreads_PLC();
 	while (1)
 	{
 	}

@@ -39,7 +39,7 @@
  /home/sanway/tooltian4_7/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/arm-linux-gnueabihf/sys/sysmacros.h \
  /home/sanway/tooltian4_7/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/arm-linux-gnueabihf/bits/pthreadtypes.h \
  /home/sanway/tooltian4_7/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./alloca.h \
- src/simubams/threads_bams.h src/ems/threads_ems.h
+ src/simubams/threads_bams.h src/ems/threads_ems.h src/plc/threads_plc.h
 
 src/include/main.h:
 
@@ -124,3 +124,5 @@ src/include/main.h:
 src/simubams/threads_bams.h:
 
 src/ems/threads_ems.h:
+
+src/plc/threads_plc.h:

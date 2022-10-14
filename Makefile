@@ -19,13 +19,15 @@ LIB_DIR := -L$(PWD)/src/lib
 INCLUDES		+=	-I./src				\
                     -I./src/include  \
 					-I./src/simubams  \
-					-I./src/ems  								
+					-I./src/ems	\
+					-I./src/plc							
 
 MAKE_DEP = -Wp,-MD,$(DEP) -MT $$@ -MP
 #_SOURCES_ += ./src/main.c
 _SOURCES_ += $(wildcard ./src/*.c)
 _SOURCES_ += $(wildcard ./src/simubams/*.c)
 _SOURCES_ += $(wildcard ./src/ems/*.c)
+_SOURCES_ += $(wildcard ./src/plc/*.c)
 $(eval OBJS1 := $(patsubst %.c,%.o,$(notdir $(_SOURCES_)))) 
 $(info OBJS1 = $(OBJS1))
 $(eval OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS1)))
