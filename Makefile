@@ -18,8 +18,8 @@ BUILD_DIR :=  $(PWD)/build
 LIB_DIR := -L$(PWD)/src/lib
 INCLUDES		+=	-I./src				\
                     -I./src/include     \
-                    -I./src/simubams     \	
-                    -I./src/ems     \									
+                    -I./src/simubams     \
+					-I./src/ems          \								
 
 MAKE_DEP = -Wp,-MD,$(DEP) -MT $$@ -MP
 #_SOURCES_ += ./src/main.c
