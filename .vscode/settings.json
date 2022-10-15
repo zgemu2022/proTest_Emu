@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"threads_bams.h": "c",
+		"threads_plc.h": "c"
+	},
+	"C_Cpp.errorSquiggles": "Disabled"
+}

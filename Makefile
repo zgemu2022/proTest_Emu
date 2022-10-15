@@ -17,15 +17,17 @@ PP			:=	${CROSS_COMPILE}gcc -E
 BUILD_DIR :=  $(PWD)/build
 LIB_DIR := -L$(PWD)/src/lib
 INCLUDES		+=	-I./src				\
-                    -I./src/include     \
-                    -I./src/simubams     \	
-                    -I./src/ems     \									
+                    -I./src/include  \
+					-I./src/simubams  \
+					-I./src/ems	\
+					-I./src/plc							
 
 MAKE_DEP = -Wp,-MD,$(DEP) -MT $$@ -MP
 #_SOURCES_ += ./src/main.c
 _SOURCES_ += $(wildcard ./src/*.c)
 _SOURCES_ += $(wildcard ./src/simubams/*.c)
 _SOURCES_ += $(wildcard ./src/ems/*.c)
+_SOURCES_ += $(wildcard ./src/plc/*.c)
 $(eval OBJS1 := $(patsubst %.c,%.o,$(notdir $(_SOURCES_)))) 
 $(info OBJS1 = $(OBJS1))
 $(eval OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS1)))
@@ -36,7 +38,7 @@ testpro_emu: $(OBJS)
 	@echo "55555 xxxxx"
 
 	$(CC)   $(OBJS) $(LIB_DIR) -o testpro_emu -lcommon -lpthread -lrt -ldl
-	-cp testpro_emu  /mnt/hgfs/Tcu_lib/testpro_emu;
+	-cp testpro_emu  /mnt/hgfs/share_E/zgEMU/Program/testpro_emu;
 #	-cp bms_simu  /mnt/hgfs/share_E/zgEMU/Program/bms_simu;
 
 # $(CC)   $(OBJS) $(LIB_DIR) -o bms_simu1 -lcommon -lpthread -lrt -ldl
