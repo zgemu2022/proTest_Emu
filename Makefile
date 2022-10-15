@@ -34,13 +34,12 @@ $(eval OBJS = $(addprefix $(BUILD_DIR)/,$(OBJS1)))
 $(info OBJS= $(OBJS))
 
 
-testpro_emu: $(OBJS)
+protest_emu: $(OBJS)
 	@echo "55555 xxxxx"
 
-	$(CC)   $(OBJS) $(LIB_DIR) -o testpro_emu -lcommon -lpthread -lrt -ldl
-	-cp testpro_emu  /mnt/hgfs/share_E/zgEMU/Program/testpro_emu;
-#	-cp bms_simu  /mnt/hgfs/share_E/zgEMU/Program/bms_simu;
-
+	$(CC)   $(OBJS) $(LIB_DIR) -o protest_emu -lcommon -lpthread -lrt -ldl
+#	-cp testpro_emu  /mnt/hgfs/share_E/zgEMU/Program/protest_emu;
+	-cp protest_emu  /mnt/hgfs/Tcu_lib/protest_emu
 # $(CC)   $(OBJS) $(LIB_DIR) -o bms_simu1 -lcommon -lpthread -lrt -ldl
 # -cp bms_simu1  /mnt/hgfs/share_E/zgEMU/Program/bms_simu1;
 	-@echo ' '
@@ -64,6 +63,6 @@ $(eval $(foreach obj,$(_SOURCES_),$(call MAKE_C,$(BUILD_DIR),$(obj))))
 .PHONY: clean
 clean:
 	@echo "clean"
-	-rm testpro_emu
+	-rm protest_emu
 # 	-rm bms_simu1
 	-rm -rf 	$(BUILD_DIR)

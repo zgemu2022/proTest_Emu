@@ -17,7 +17,9 @@ enum SERVER_WORK_STATE //当前工作状态
 	SER_IDEL = 1,						  //系统闲置中
 	EMS_COMMUNICATION_STATUS_SETTING = 2, //设置EMS通信状态
 	EMS_START_EMU = 3,					  //下发升压舱启动信号
-
+	EMS_STOP_EMU = 4,					  //下发升压舱停止信号	
+    EMS_START_ONE_PCS =5,                 //对其中一个PCS发送启动信号
+    EMS_STOP_ONE_PCS =6,                 //对其中一个PCS发送停止信号
 	//	SER_IDEL = 0xff, //系统闲置中
 };
 

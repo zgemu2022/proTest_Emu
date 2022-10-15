@@ -26,7 +26,7 @@ int g_sys_status_last = SER_WAITTING_START;
 
 static iec61850_shm_packet_t *shm_addr;
 
-void emu_commnication_status_setting(void)
+static void emu_commnication_status_setting(void)
 {
 
 	int i;
@@ -45,7 +45,7 @@ void emu_commnication_status_setting(void)
 	shm_addr->shm_que2.slist[i].el_tag = _BOOL_;
 }
 
-void emus_start_emu(void)
+static void ems_start_emu(unsigned char type)
 {
 
 	int i;
@@ -55,12 +55,35 @@ void emus_start_emu(void)
 	shm_addr->shm_que2.slist[i].sAddr.portID = 1;
 	shm_addr->shm_que2.slist[i].sAddr.devID = 1;
 	shm_addr->shm_que2.slist[i].sAddr.typeID = 5;
+	if(type==0)
+		shm_addr->shm_que2.slist[i].sAddr.pointID = 2;
+	else
+		shm_addr->shm_que2.slist[i].sAddr.pointID = 1;    
+
+	shm_addr->shm_que2.slist[i].data_size = 1;
+	shm_addr->shm_que2.slist[i].data[0] = type;
+
+	printf("emus_start_emu发送的数据  %d  \n", (int)shm_addr->shm_que2.slist[i].data[0]);
+	shm_addr->shm_que2.slist[i].el_tag = _BOOL_;
+}
+
+static void ems_start_stop_onepcs(unsigned char type,unsigned char lcdid,unsigned char pcsid)
+{
+
+	int i;
+    unsigned char sn;
+	sn=lcdid*6+pcsid;
+	i = shm_addr->shm_que2.wpos;
+	shm_addr->shm_que2.wpos++;
+	shm_addr->shm_que2.slist[i].sAddr.portID = 3;
+	shm_addr->shm_que2.slist[i].sAddr.devID = sn;
+	shm_addr->shm_que2.slist[i].sAddr.typeID = 5;
 	shm_addr->shm_que2.slist[i].sAddr.pointID = 1;
 
 	shm_addr->shm_que2.slist[i].data_size = 1;
-	shm_addr->shm_que2.slist[i].data[0] = 1;
+	shm_addr->shm_que2.slist[i].data[0] = type;
 
-	printf("emus_start_emu发送的数据  %d  \n", (int)shm_addr->shm_que2.slist[i].data[0]);
+	printf("ems_start_onepcs发送的数据  %d  \n", (int)shm_addr->shm_que2.slist[i].data[0]);
 	shm_addr->shm_que2.slist[i].el_tag = _BOOL_;
 }
 void bms_setting(int sys_status)
@@ -72,8 +95,17 @@ void bms_setting(int sys_status)
 		emu_commnication_status_setting();
 		break;
 		case EMS_START_EMU:
-        emus_start_emu();
-
+        ems_start_emu(1);
+		break;
+		case EMS_STOP_EMU:
+        ems_start_emu(0);
+		break;		
+		case EMS_START_ONE_PCS:
+        ems_start_stop_onepcs(1,0,3);
+		break;
+		case EMS_STOP_ONE_PCS:
+        ems_start_stop_onepcs(0,0,3);
+		break;		
 		break;
 		default:
 		break;
@@ -149,7 +181,7 @@ int anslize()
             printf("共享内存收到遥测统计数据，系统状态进入启动！\n");
 		//	if(g_sys_status_last == EMS_COMMUNICATION_STATUS_SETTING && g_sys_status == SER_IDEL)
 			{
-				g_sys_status = EMS_START_EMU;
+				g_sys_status = EMS_START_ONE_PCS;//EMS_START_EMU;
 			}
 		}
 
