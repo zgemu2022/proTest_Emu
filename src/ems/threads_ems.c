@@ -55,10 +55,10 @@ static void ems_start_emu(unsigned char type)
 	shm_addr->shm_que2.slist[i].sAddr.portID = 1;
 	shm_addr->shm_que2.slist[i].sAddr.devID = 1;
 	shm_addr->shm_que2.slist[i].sAddr.typeID = 5;
-	if(type==0)
+	if (type == 0)
 		shm_addr->shm_que2.slist[i].sAddr.pointID = 2;
 	else
-		shm_addr->shm_que2.slist[i].sAddr.pointID = 1;    
+		shm_addr->shm_que2.slist[i].sAddr.pointID = 1;
 
 	shm_addr->shm_que2.slist[i].data_size = 1;
 	shm_addr->shm_que2.slist[i].data[0] = type;
@@ -67,12 +67,12 @@ static void ems_start_emu(unsigned char type)
 	shm_addr->shm_que2.slist[i].el_tag = _BOOL_;
 }
 
-static void ems_start_stop_onepcs(unsigned char type,unsigned char lcdid,unsigned char pcsid)
+static void ems_start_stop_onepcs(unsigned char type, unsigned char lcdid, unsigned char pcsid)
 {
 
 	int i;
-    unsigned char sn;
-	sn=lcdid*6+pcsid;
+	unsigned char sn;
+	sn = lcdid * 6 + pcsid;
 	i = shm_addr->shm_que2.wpos;
 	shm_addr->shm_que2.wpos++;
 	shm_addr->shm_que2.slist[i].sAddr.portID = 3;
@@ -89,28 +89,27 @@ static void ems_start_stop_onepcs(unsigned char type,unsigned char lcdid,unsigne
 void bms_setting(int sys_status)
 {
 
-	switch(sys_status)
+	switch (sys_status)
 	{
-		case EMS_COMMUNICATION_STATUS_SETTING:
+	case EMS_COMMUNICATION_STATUS_SETTING:
 		emu_commnication_status_setting();
 		break;
-		case EMS_START_EMU:
-        ems_start_emu(1);
+	case EMS_START_EMU:
+		ems_start_emu(1);
 		break;
-		case EMS_STOP_EMU:
-        ems_start_emu(0);
-		break;		
-		case EMS_START_ONE_PCS:
-        ems_start_stop_onepcs(1,0,3);
+	case EMS_STOP_EMU:
+		ems_start_emu(0);
 		break;
-		case EMS_STOP_ONE_PCS:
-        ems_start_stop_onepcs(0,0,3);
-		break;		
+	case EMS_START_ONE_PCS:
+		ems_start_stop_onepcs(1, 0, 3);
 		break;
-		default:
+	case EMS_STOP_ONE_PCS:
+		ems_start_stop_onepcs(0, 0, 3);
+		break;
+		break;
+	default:
 		break;
 	}
-
 }
 
 void *thread_61850_write(void *arg)
@@ -138,13 +137,12 @@ void *thread_61850_write(void *arg)
 			//	sleep(1);
 		}
 
-
-        if(g_sys_status > SER_IDEL)
+		if (g_sys_status > SER_IDEL)
 		{
 			printf("66666 666666  g_sys_status=%d\n", g_sys_status);
 			sem_wait(mutex2_lock);
 			printf("77777 777777  g_sys_status=%d\n", g_sys_status);
-            bms_setting(g_sys_status);
+			bms_setting(g_sys_status);
 
 			sem_post(mutex2_lock);
 
@@ -152,7 +150,6 @@ void *thread_61850_write(void *arg)
 			g_sys_status_last = g_sys_status;
 			g_sys_status = SER_IDEL;
 		}
-
 	}
 
 	return NULL;
@@ -171,17 +168,17 @@ int anslize()
 		data_info_t temp_data = shm_addr->shm_que1.slist[i];
 		if (temp_data.sAddr.portID == 1 && temp_data.sAddr.devID == 1 && temp_data.sAddr.typeID == 2 && temp_data.sAddr.pointID == 0)
 		{
-			  printf("状态进入设置EMS通信状态设置\n");
-			//if(g_sys_status == SER_WAITTING_START)
-			  g_sys_status = EMS_COMMUNICATION_STATUS_SETTING; //状态进入设置EMS通信状态设置
-			  g_sys_status_last = SER_WAITTING_START;
+			printf("状态进入设置EMS通信状态设置\n");
+			// if(g_sys_status == SER_WAITTING_START)
+			g_sys_status = EMS_COMMUNICATION_STATUS_SETTING; //状态进入设置EMS通信状态设置
+			g_sys_status_last = SER_WAITTING_START;
 		}
-		else if(temp_data.sAddr.portID == 1 && temp_data.sAddr.devID == 1 && temp_data.sAddr.typeID == 2 && temp_data.sAddr.pointID == 19)
+		else if (temp_data.sAddr.portID == 1 && temp_data.sAddr.devID == 1 && temp_data.sAddr.typeID == 2 && temp_data.sAddr.pointID == 19)
 		{
-            printf("共享内存收到遥测统计数据，系统状态进入启动！\n");
-		//	if(g_sys_status_last == EMS_COMMUNICATION_STATUS_SETTING && g_sys_status == SER_IDEL)
+			printf("共享内存收到遥测统计数据，系统状态进入启动！\n");
+			if (g_sys_status_last == EMS_COMMUNICATION_STATUS_SETTING && g_sys_status == SER_IDEL)
 			{
-				g_sys_status = EMS_START_ONE_PCS;//EMS_START_EMU;
+				g_sys_status = EMS_START_EMU; // EMS_START_ONE_PCS;
 			}
 		}
 
