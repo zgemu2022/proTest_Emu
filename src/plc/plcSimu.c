@@ -33,7 +33,7 @@ void *serial_thread_plc(void)
     struct sockaddr_in my_addr, their_addr;
     waitFlag = 0;
     
-    unsigned int myport, lisnum;
+    unsigned int lisnum;
     char buf[MAXBUF + 1];
     
     fd_set rfds;

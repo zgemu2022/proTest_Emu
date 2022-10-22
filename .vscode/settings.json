@@ -1,7 +1,9 @@
 {
 	"files.associations": {
 		"threads_bams.h": "c",
-		"threads_plc.h": "c"
+		"threads_plc.h": "c",
+		"threads_lcd.h": "c",
+		"my_socket.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "Disabled"
 }

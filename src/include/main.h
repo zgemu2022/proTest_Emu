@@ -9,4 +9,13 @@ typedef struct
 	unsigned char devid[PORTNUM_MAX];//设备地址
 	unsigned char pcs_num[PORTNUM_MAX];
 } PARA_BAMS; //
+
+typedef struct
+{
+	unsigned char lcdnum;//LCD数量
+	char lcd_server_ip[6][64];
+	unsigned short server_port[6];
+
+} PARA_LCD;
+
 #endif

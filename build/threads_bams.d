@@ -1,4 +1,4 @@
-/mnt/hgfs/zg/proTest_Emu/build/threads_bams.o: \
+/mnt/hgfs/zgemutest-1/proTest_Emu/build/threads_bams.o: \
  src/simubams/threads_bams.c src/simubams/threads_bams.h \
  src/include/main.h src/include/sys.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/arm-linux-gnueabihf/bits/pthreadtypes.h \

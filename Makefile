@@ -20,6 +20,7 @@ INCLUDES		+=	-I./src				\
                     -I./src/include  \
 					-I./src/simubams  \
 					-I./src/ems	\
+					-I./src/lcd	\
 					-I./src/plc							
 
 MAKE_DEP = -Wp,-MD,$(DEP) -MT $$@ -MP
@@ -27,6 +28,7 @@ MAKE_DEP = -Wp,-MD,$(DEP) -MT $$@ -MP
 _SOURCES_ += $(wildcard ./src/*.c)
 _SOURCES_ += $(wildcard ./src/simubams/*.c)
 _SOURCES_ += $(wildcard ./src/ems/*.c)
+_SOURCES_ += $(wildcard ./src/lcd/*.c)
 _SOURCES_ += $(wildcard ./src/plc/*.c)
 $(eval OBJS1 := $(patsubst %.c,%.o,$(notdir $(_SOURCES_)))) 
 $(info OBJS1 = $(OBJS1))
