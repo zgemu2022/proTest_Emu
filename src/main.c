@@ -11,8 +11,7 @@
 #include "threads_plc.h"
 
 PARA_BAMS para_bms = {1, {9600, 9600}, {0, 1}, {6, 14}};
-PARA_LCD  para_lcd = {1,{{"192.168.2.230"},{"192.168.2.230"},{"192.168.2.230"},{"192.168.2.230"},{"192.168.2.230"},{"192.168.2.230"},{"192.168.2.230"}},
-{1500,503,504,505,506,507}};
+PARA_LCD para_lcd = {1, {{"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}}, {502, 503, 504, 505, 506, 507}};
 int main(int argc, char *argv[])
 {
 	int i;
@@ -22,7 +21,7 @@ int main(int argc, char *argv[])
 	// CreateThreads_BAMS((void *)&para_bms);
 	// CreateThreads_ems();
 	// CreateThreads_PLC();
-	CreateThreads_lcd((void*)&para_lcd);
+	CreateThreads_lcd((void *)&para_lcd);
 	while (1)
 	{
 	}

@@ -109,44 +109,47 @@ int _socket_client_init(_SERVER_SOCKET *sock)
 	return 0;
 }
 
-int _socket_server_init(_SERVER_SOCKET* sock)
+int _socket_server_init(_SERVER_SOCKET *sock)
 {
 	int iSock;
 	int iType, ret;
 	struct sockaddr_in ServerAddr;
 	int opt = 1;
 
-	if( sock == NULL ) {
+	if (sock == NULL)
+	{
 		return -1;
 	}
 
 	iType = (sock->protocol == UDP) ? SOCK_DGRAM : SOCK_STREAM;
-/*   一、获取套接字 */
-	iSock = socket( AF_INET, iType, 0 );
-	if( iSock < 0 )
+	/*   一、获取套接字 */
+	iSock = socket(AF_INET, iType, 0);
+	if (iSock < 0)
 	{
 		printf("%s:%d socket create fail! \n", __FILE__, __LINE__);
 		return -1;
 	}
-/* 二、准备通信地址 */
+	/* 二、准备通信地址 */
 	ServerAddr.sin_family = AF_INET;
-	ServerAddr.sin_port = sock->port;	//监视的端口号
-	ServerAddr.sin_addr.s_addr = sock->addr;	//本地IP
-	memset( & ( ServerAddr.sin_zero ), 0, sizeof( ServerAddr.sin_zero ) );
+	ServerAddr.sin_port = sock->port;		 //监视的端口号
+	ServerAddr.sin_addr.s_addr = sock->addr; //本地IP
+	memset(&(ServerAddr.sin_zero), 0, sizeof(ServerAddr.sin_zero));
 
-		/*三、设置 端口复用*/
-		ret = setsockopt(iSock, SOL_SOCKET, SO_REUSEADDR, (const void *) &opt, sizeof(opt));
-		if(ret < 0) {
-			printf("%s:%d socket setsockopt fail! \n", __FILE__, __LINE__);
-			return -1;
-	    }
-		/*四、绑定*/
-		ret = bind( iSock, ( struct sockaddr * )&ServerAddr, sizeof( struct sockaddr ));
-		if(ret < 0) {
-			printf("%s:%d socket bind fail! \n", __FILE__, __LINE__);
-			close(iSock);
-			return -1;
-	    }
+	/*三、设置 端口复用*/
+	ret = setsockopt(iSock, SOL_SOCKET, SO_REUSEADDR, (const void *)&opt, sizeof(opt));
+	if (ret < 0)
+	{
+		printf("%s:%d socket setsockopt fail! \n", __FILE__, __LINE__);
+		return -1;
+	}
+	/*四、绑定*/
+	ret = bind(iSock, (struct sockaddr *)&ServerAddr, sizeof(struct sockaddr));
+	if (ret < 0)
+	{
+		printf("%s:%d socket bind fail! \n", __FILE__, __LINE__);
+		close(iSock);
+		return -1;
+	}
 
 	sock->fd = iSock;
 	printf("iSock:[%d] , sock->fd:[%d] \n", iSock, sock->fd);
@@ -156,101 +159,113 @@ int _socket_server_init(_SERVER_SOCKET* sock)
 
 void _socket_server_listen1(accept_fun pAcceptFun, _SERVER_SOCKET server_sock)
 {
-	//printf("---------------------[F:%s]--------------[F:%s]-----------[L:%d]--------------\n",__FILE__,__FUNCTION__,__LINE__);
+	// printf("---------------------[F:%s]--------------[F:%s]-----------[L:%d]--------------\n",__FILE__,__FUNCTION__,__LINE__);
 	struct timeval tv;
 	fd_set fdsr;
 	struct sockaddr_in ClientAddr;
-	int  ifdClientSock;
+	int ifdClientSock;
 	int sin_size, ret;
 
-	while (1) {
+	while (1)
+	{
 		tv.tv_sec = 5;
-        tv.tv_usec = 0;
+		tv.tv_usec = 0;
 
 		FD_ZERO(&fdsr);
-        FD_SET(server_sock.fd, &fdsr);
-/*  select   */
+		FD_SET(server_sock.fd, &fdsr);
+		/*  select   */
 		ret = select(server_sock.fd + 1, &fdsr, NULL, NULL, &tv);
-        	if (ret < 0) {
-            	//printf("%s:%d select error:%s!\n", __FUNCTION__, __LINE__, strerror(errno));
-				if(errno == EINTR) {
-					usleep(100000);	/*  因system interrupt会使select出错, 故等100ms 后再select  */
-					continue;
-				}
-				else {
-					FD_CLR(server_sock.fd, &fdsr);
-		            return ;
-				}
-        	}
-			else if (ret == 0) {
-				printf("%s:%d listen select timeout!\n", __FUNCTION__, __LINE__);
-            	continue;
-        	}
+		if (ret < 0)
+		{
+			// printf("%s:%d select error:%s!\n", __FUNCTION__, __LINE__, strerror(errno));
+			if (errno == EINTR)
+			{
+				usleep(100000); /*  因system interrupt会使select出错, 故等100ms 后再select  */
+				continue;
+			}
+			else
+			{
+				FD_CLR(server_sock.fd, &fdsr);
+				return;
+			}
+		}
+		else if (ret == 0)
+		{
+			printf("%s:%d listen select timeout!\n", __FUNCTION__, __LINE__);
+			continue;
+		}
 
-		if (FD_ISSET(server_sock.fd, &fdsr)) {
+		if (FD_ISSET(server_sock.fd, &fdsr))
+		{
 
 			printf("接收了一个新的连接！！！！！！！！！！！！！！！！！！！！！\r\n");
-/*  accept  接受连接 */
-			ifdClientSock = accept( server_sock.fd, ( struct sockaddr * )&ClientAddr, (socklen_t*)&sin_size );
-       		if (ifdClientSock <= 0) {
-              		printf("%s:%d accept error:%s!\n", __FUNCTION__, __LINE__, strerror(errno));
-				    FD_CLR(server_sock.fd, &fdsr);
-              		return ;
-       		}
-            pAcceptFun(ifdClientSock, ClientAddr);	//回调create_new_client
+			/*  accept  接受连接 */
+			ifdClientSock = accept(server_sock.fd, (struct sockaddr *)&ClientAddr, (socklen_t *)&sin_size);
+			if (ifdClientSock <= 0)
+			{
+				printf("%s:%d accept error:%s!\n", __FUNCTION__, __LINE__, strerror(errno));
+				FD_CLR(server_sock.fd, &fdsr);
+				return;
+			}
+			pAcceptFun(ifdClientSock, ClientAddr); //回调create_new_client
 		}
 	}
 }
 
 int _socket_server_listen(_SERVER_SOCKET server_sock)
 {
-	//printf("---------------------[F:%s]--------------[F:%s]-----------[L:%d]--------------\n",__FILE__,__FUNCTION__,__LINE__);
+	// printf("---------------------[F:%s]--------------[F:%s]-----------[L:%d]--------------\n",__FILE__,__FUNCTION__,__LINE__);
 	struct timeval tv;
 	fd_set fdsr;
 	struct sockaddr_in ClientAddr;
-	int  client_sockptr;
+	int client_sockptr;
 	int sin_size, ret;
-
-	while (1) {
+	sin_size = sizeof(struct sockaddr_in);
+	while (1)
+	{
 		tv.tv_sec = 50;
-        tv.tv_usec = 0;
+		tv.tv_usec = 0;
 
 		FD_ZERO(&fdsr);
-        FD_SET(server_sock.fd, &fdsr);
-/*  select   */
+		FD_SET(server_sock.fd, &fdsr);
+		/*  select   */
 		ret = select(server_sock.fd + 1, &fdsr, NULL, NULL, &tv);
-        	if (ret < 0) {
-            //	printf("%s:%d select error:%s!\n", __FUNCTION__, __LINE__, strerror(errno));
-				if(errno == EINTR) {
-					printf("因system interrupt会使select出错, 故等100ms 后再select\n");
-					usleep(100000);	/*  因system interrupt会使select出错, 故等100ms 后再select  */
-					continue;
-				}
-				else {
-					FD_CLR(server_sock.fd, &fdsr);
-					printf("99999999999999999\n");
-		            return -1;
-				}
-				
-
-        	}
-			else if (ret == 0) {
-				printf("%s:%d listen select timeout!\n", __FUNCTION__, __LINE__);
-            	continue;
-        	}
+		if (ret < 0)
+		{
+			//	printf("%s:%d select error:%s!\n", __FUNCTION__, __LINE__, strerror(errno));
+			if (errno == EINTR)
+			{
+				printf("因system interrupt会使select出错, 故等100ms 后再select\n");
+				usleep(100000); /*  因system interrupt会使select出错, 故等100ms 后再select  */
+				continue;
+			}
 			else
-			   printf("1111111111111111111111111111 ret=%d\n",ret);
+			{
+				FD_CLR(server_sock.fd, &fdsr);
+				printf("99999999999999999\n");
+				return -1;
+			}
+		}
+		else if (ret == 0)
+		{
+			printf("%s:%d listen select timeout!\n", __FUNCTION__, __LINE__);
+			continue;
+		}
+		else
+			printf("1111111111111111111111111111 ret=%d\n", ret);
 
-		if (FD_ISSET(server_sock.fd, &fdsr)) {
+		if (FD_ISSET(server_sock.fd, &fdsr))
+		{
 
-			printf("接收了一个新的连接！！！！！！！！！！！！！！！！！！！！！server_sock.fd=%d\r\n",server_sock.fd);
-/*  accept  接受连接 */
-			client_sockptr = accept( server_sock.fd, ( struct sockaddr * )&ClientAddr, (socklen_t*)&sin_size );
-       		if (client_sockptr <= 0) {
-              		printf("%s:%d accept error:%s!\n", __FUNCTION__, __LINE__, strerror(errno));
-				    FD_CLR(server_sock.fd, &fdsr);
-              		return -2;
-       		}
+			printf("接收了一个新的连接！！！！！！！！！！！！！！！！！！！！！server_sock.fd=%d\r\n", server_sock.fd);
+			/*  accept  接受连接 */
+			client_sockptr = accept(server_sock.fd, (struct sockaddr *)&ClientAddr, (socklen_t *)&sin_size);
+			if (client_sockptr <= 0)
+			{
+				printf("%s:%d accept error:%s!\n", __FUNCTION__, __LINE__, strerror(errno));
+				FD_CLR(server_sock.fd, &fdsr);
+				return -2;
+			}
 		}
 		return client_sockptr;
 	}

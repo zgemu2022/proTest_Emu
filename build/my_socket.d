@@ -1,4 +1,4 @@
-/mnt/hgfs/zgemutest-1/proTest_Emu/build/my_socket.o: src/lcd/my_socket.c \
+/mnt/hgfs/zg/proTest_Emu/build/my_socket.o: src/lcd/my_socket.c \
  src/lcd/my_socket.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./netinet/in.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./features.h \
