@@ -60,7 +60,7 @@ void *Modbus_clientSend_thread(void *arg) // 25
 			if ((id_frame != 0xffff && (g_num_frame - 1) == id_frame) || (id_frame == 0xffff && g_num_frame == 1))
 			{
 				printf("recv form pcs!!!!!g_num_frame=%d  id_frame=%d\n", g_num_frame, id_frame);
-			//	int res = AnalysModbus(id_thread, pcsdata.buf, pcsdata.len);
+				//	int res = AnalysModbus(id_thread, pcsdata.buf, pcsdata.len);
 				// if (0 == res)
 				// {
 				// 	printf("数据解析成功！！！\n");
@@ -83,7 +83,7 @@ void *Modbus_clientSend_thread(void *arg) // 25
 			continue;
 		}
 
-//		RunAccordingtoStatus(id_thread);
+		//		RunAccordingtoStatus(id_thread);
 	}
 	return NULL;
 }
@@ -223,8 +223,6 @@ void *Modbus_clientRecv_thread(void *arg) // 25
 	return NULL;
 }
 
-
-
 void *Modbus_ServerConnectThread(void *arg)
 {
 	int id_thread = (int)arg;
@@ -236,24 +234,27 @@ void *Modbus_ServerConnectThread(void *arg)
 
 	key_t key = 0;
 	g_comm_qmegid[id_thread] = os_create_msgqueue(&key, 1);
-	printf("ip=%s  port=%d\n",pParaLcd->lcd_server_ip[id_thread],pParaLcd->server_port[id_thread]);
+	printf("ip=%s  port=%d\n", pParaLcd->lcd_server_ip[id_thread], pParaLcd->server_port[id_thread]);
 
 	server_sock.protocol = TCP;
 	server_sock.port = htons(pParaLcd->server_port[id_thread]);
 	server_sock.addr = inet_addr(pParaLcd->lcd_server_ip[id_thread]);
 	server_sock.fd = -1;
 	ret = _socket_server_init(&server_sock);
-	if(ret<0)
+	if (ret < 0)
 	{
-            printf("_socket_server_init err \n");
-			while(1)
-			{
-
-			}
+		printf("_socket_server_init err \n");
+		while (1)
+		{
+		}
 	}
-		
-	printf("_socket_server_init succ\n");
 
+	printf("_socket_server_init succ\n");
+	if (listen(server_sock.fd, 1) == -1)
+	{
+		perror("listen");
+		exit(1);
+	}
 	while (1)
 	{
 		if (modbus_sockt_state[id_thread] == STATUS_OFF)
@@ -261,8 +262,8 @@ void *Modbus_ServerConnectThread(void *arg)
 			client_sockptr = _socket_server_listen(server_sock);
 			if (client_sockptr > 0)
 			{
-				 modbus_sockt_state[id_thread] = STATUS_ON;
-				 modbus_client_sockptr[id_thread]= client_sockptr;
+				modbus_sockt_state[id_thread] = STATUS_ON;
+				modbus_client_sockptr[id_thread] = client_sockptr;
 				if (FAIL == CreateSettingThread(&ThreadID, &Thread_attr, (void *)Modbus_clientRecv_thread, (int *)id_thread, 1, 1))
 				{
 					printf("MODBUS CONNECT THTREAD CREATE ERR!\n");
@@ -272,8 +273,8 @@ void *Modbus_ServerConnectThread(void *arg)
 				// 	printf("MODBUS THTREAD CREATE ERR!\n");
 				// }
 			}
-			else 
-			  printf("err err 999999999999 client_sockptr=%d\n",client_sockptr);
+			else
+				printf("err err 999999999999 client_sockptr=%d\n", client_sockptr);
 		}
 		sleep(1);
 	}
