@@ -1,4 +1,4 @@
-/mnt/hgfs/zgemutest-1/proTest_Emu/build/serial.o: src/simubams/serial.c \
+/mnt/hgfs/off-zgemu/proTest_Emu/build/serial.o: src/simubams/serial.c \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./termios.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./features.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/arm-linux-gnueabihf/bits/predefs.h \

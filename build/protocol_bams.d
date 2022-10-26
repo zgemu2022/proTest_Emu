@@ -1,4 +1,4 @@
-/mnt/hgfs/zgemutest-1/proTest_Emu/build/protocol_bams.o: \
+/mnt/hgfs/off-zgemu/proTest_Emu/build/protocol_bams.o: \
  src/simubams/protocol_bams.c src/simubams/protocol_bams.h \
  src/include/sys.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/arm-linux-gnueabihf/bits/pthreadtypes.h \
