@@ -21,6 +21,6 @@ typedef struct
 
 } ModTcp_Frame;
 
-int modbus_client_sockptr[];
+extern int modbus_client_sockptr[];
 void CreateThreads_lcd(void *para);
 #endif

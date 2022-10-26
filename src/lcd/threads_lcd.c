@@ -21,15 +21,7 @@ struct sockaddr_in Server_Addr, Client_addr;
 PARA_LCD *pParaLcd;
 int g_comm_qmegid[6];
 
-static int myprintbuf(int len, unsigned char *buf)
-{
-	int i = 0;
-	printf("\nbuflen=%d\n", len);
-	for (i = 0; i < len; i++)
-		printf("0x%x ", buf[i]);
-	printf("\n");
-	return 0;
-}
+
 void *Modbus_clientSend_thread(void *arg) // 25
 {
 
@@ -41,7 +33,8 @@ void *Modbus_clientSend_thread(void *arg) // 25
 	int id_frame;
 
 	printf("PCS[%d] Modbus_clientSend_thread  is Starting!\n", id_thread);
-
+	key_t key = 0;
+	g_comm_qmegid[id_thread] = os_create_msgqueue(&key, 1);
 	// printf("modbus_sockt_state[id_thread] == STATUS_ON\n") ;
 	while (modbus_sockt_state[id_thread] == STATUS_ON) //
 	{
@@ -218,8 +211,7 @@ void *Modbus_ServerConnectThread(void *arg)
 	pthread_attr_t Thread_attr;
 	_SERVER_SOCKET server_sock;
 
-	key_t key = 0;
-	g_comm_qmegid[id_thread] = os_create_msgqueue(&key, 1);
+
 	printf("ip=%s  port=%d\n", pParaLcd->lcd_server_ip[id_thread], pParaLcd->server_port[id_thread]);
 
 	server_sock.protocol = TCP;

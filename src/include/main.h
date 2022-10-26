@@ -17,5 +17,5 @@ typedef struct
 	unsigned short server_port[6];
 
 } PARA_LCD;
-
+int myprintbuf(int len, unsigned char *buf);
 #endif

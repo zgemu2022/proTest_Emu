@@ -1,4 +1,5 @@
-/mnt/hgfs/zg/proTest_Emu/build/main.o: src/main.c src/include/main.h \
+/mnt/hgfs/zgemutest-2/proTest_Emu/build/main.o: src/main.c \
+ src/include/main.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./stdio.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./features.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/arm-linux-gnueabihf/bits/predefs.h \
