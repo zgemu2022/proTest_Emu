@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 	printf("argc = %d\n", argc);
 	for (i = 0; i < argc; i++)
 		printf("argv[%d] is %s\n", i, argv[i]);
-	// CreateThreads_BAMS((void *)&para_bms);
+	 CreateThreads_BAMS((void *)&para_bms);
 	// CreateThreads_ems();
 	// CreateThreads_PLC();
 	CreateThreads_lcd((void *)&para_lcd);
