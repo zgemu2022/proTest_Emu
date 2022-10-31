@@ -1,4 +1,4 @@
-/mnt/hgfs/zgemutest-2/proTest_Emu/build/protocol_lcd.o: \
+/mnt/hgfs/home-zgemu/proTest_Emu/build/protocol_lcd.o: \
  src/lcd/protocol_lcd.c src/lcd/threads_lcd.h src/lcd/my_socket.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./netinet/in.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./features.h \

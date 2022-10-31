@@ -19,16 +19,16 @@ int myprintbuf(int len, unsigned char *buf)
 	return 0;
 }
 PARA_BAMS para_bms = {1, {9600, 9600}, {0, 1}, {6, 14}};
-PARA_LCD para_lcd = {6, {{"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}}, {1502, 1503, 1504, 1505, 1506, 1507}};
+PARA_LCD para_lcd = {1, {{"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}}, {1503, 1504, 1505, 1506, 1507, 1508}};
 int main(int argc, char *argv[])
 {
 	int i;
 	printf("argc = %d\n", argc);
 	for (i = 0; i < argc; i++)
 		printf("argv[%d] is %s\n", i, argv[i]);
-	 CreateThreads_BAMS((void *)&para_bms);
-	// CreateThreads_ems();
-	// CreateThreads_PLC();
+	// CreateThreads_BAMS((void *)&para_bms);
+	//  CreateThreads_ems();
+	//  CreateThreads_PLC();
 	CreateThreads_lcd((void *)&para_lcd);
 	while (1)
 	{

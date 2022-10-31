@@ -21,7 +21,6 @@ struct sockaddr_in Server_Addr, Client_addr;
 PARA_LCD *pParaLcd;
 int g_comm_qmegid[6];
 
-
 void *Modbus_clientSend_thread(void *arg) // 25
 {
 
@@ -186,7 +185,7 @@ void *Modbus_clientRecv_thread(void *arg) // 25
 				else
 				{
 					i = 0;
-					printf("接收成功！！！！！！！！！！！！！！！！ modbus_sockt_state[id_thread]=%d\r\n", modbus_sockt_state[id_thread]);
+					printf("接收线程接收成功！！！！！ modbus_sockt_state[id_thread]=%d\r\n", modbus_sockt_state[id_thread]);
 				}
 			}
 			else
@@ -211,8 +210,7 @@ void *Modbus_ServerConnectThread(void *arg)
 	pthread_attr_t Thread_attr;
 	_SERVER_SOCKET server_sock;
 
-
-	printf("ip=%s  port=%d\n", pParaLcd->lcd_server_ip[id_thread], pParaLcd->server_port[id_thread]);
+	printf("id_thread=%d  ip=%s  port=%d\n", id_thread, pParaLcd->lcd_server_ip[id_thread], pParaLcd->server_port[id_thread]);
 
 	server_sock.protocol = TCP;
 	server_sock.port = htons(pParaLcd->server_port[id_thread]);
@@ -227,12 +225,12 @@ void *Modbus_ServerConnectThread(void *arg)
 		}
 	}
 
-	if (listen(server_sock.fd, 2) == -1)
+	if (listen(server_sock.fd, 1) == -1)
 	{
 		perror("listen err err");
 		exit(1);
 	}
-	printf("_socket_server_init succ\n");
+	printf("id_thread=%d  _socket_server_init succ\n", id_thread);
 	while (1)
 	{
 		if (modbus_sockt_state[id_thread] == STATUS_OFF)

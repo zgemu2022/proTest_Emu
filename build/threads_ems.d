@@ -1,4 +1,4 @@
-/mnt/hgfs/zgemutest-2/proTest_Emu/build/threads_ems.o: \
+/mnt/hgfs/home-zgemu/proTest_Emu/build/threads_ems.o: \
  src/ems/threads_ems.c \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./stdio.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./features.h \
