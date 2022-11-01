@@ -2,38 +2,38 @@
 #ifndef _PROTOCOL_BAMS_H_
 #define _PROTOCOL_BAMS_H_
 
-#define BMS_MX_CPW 0						 //µç³Ø·ÖÏµÍ³ n ×î´óÔÊĞí³äµç¹¦ÂÊ
-#define BMS_MX_DPW 1						 //µç³Ø·ÖÏµÍ³ n ×î´óÔÊĞí·Åµç¹¦ÂÊ
-#define BMS_CONN_HEARTBEAT 2				 //µç³Ø·ÖÏµÍ³ n Í¨Ñ¶ĞÄÌø
-#define BMS_MAIN_VOLTAGE 3					 //µç³Ø·ÖÏµÍ³ n ×ÜµçÑ¹
-#define BMS_MX_CCURRENT 4					 //µç³Ø·ÖÏµÍ³ n ×î´óÔÊĞí³äµçµçÁ÷
-#define BMS_MX_DCURRENT 5					 //µç³Ø·ÖÏµÍ³ n ×î´óÔÊĞí·ÅµçµçÁ÷
-#define BMS_SUM_CURRENT 6					 //µç³Ø·ÖÏµÍ³ n µç³Ø×ÜµçÁ÷
-#define BMS_SOC 7							 //µç³Ø·ÖÏµÍ³ n µç³Ø SOC
-#define BMS_remaining_charging_capacity 8	 //µç³Ø·ÖÏµÍ³ n µç³ØÊ£Óà¿É³äµçÁ¿
-#define BMS_remaining_discharging_capacity 9 //µç³Ø·ÖÏµÍ³ n µç³ØÊ£Óà¿É·ÅµçÁ¿
-#define BMS_single_MX_voltage 10			 //µç³Ø·ÖÏµÍ³ n µ¥Ìå×î¸ßµçÑ¹
-#define BMS_single_MI_voltage 11			 //µç³Ø·ÖÏµÍ³ n µ¥Ìå×îµÍµçÑ¹
-#define BMS_SYS_STATUS 12					 //µç³Ø·ÖÏµÍ³ n ×´Ì¬0-³õÊ¼»¯ 1-Í£»ú 2-Æô¶¯ÖĞ 3-ÔËĞĞ 4-´ı»ú 5-¹ÊÕÏ 9-¹Ø»ú 255-µ÷ÊÔ
-#define BMS_SYS_NEED 13						 //µç³Ø·ÖÏµÍ³ n ĞèÇó 0-½û³ä½û·Å(PCS½ûÖ¹³äµç·Åµç, PCSÓ¦Í£»ú»ò·âÂö³å) 1-Ö»ÄÜ³äµç£¨PCS½ûÖ¹·Åµç£© 2-Ö»ÄÜ·Åµç£¨PCS½ûÖ¹³äµç£© 3-¿É³ä¿É·Å£¨Õı³££©
-#define BMS_FAULT_STATUS 14					 //µç³Ø·ÖÏµÍ³ n ×Ü¹ÊÕÏ×´Ì¬
-enum _BMS_SYS_STATUS //µç³Ø·ÖÏµÍ³×´Ì¬
+#define BMS_MX_CPW 0						 //ç”µæ± åˆ†ç³»ç»Ÿ n æœ€å¤§å…è®¸å……ç”µåŠŸç‡
+#define BMS_MX_DPW 1						 //ç”µæ± åˆ†ç³»ç»Ÿ n æœ€å¤§å…è®¸æ”¾ç”µåŠŸç‡
+#define BMS_CONN_HEARTBEAT 2				 //ç”µæ± åˆ†ç³»ç»Ÿ n é€šè®¯å¿ƒè·³
+#define BMS_MAIN_VOLTAGE 3					 //ç”µæ± åˆ†ç³»ç»Ÿ n æ€»ç”µå‹
+#define BMS_MX_CCURRENT 4					 //ç”µæ± åˆ†ç³»ç»Ÿ n æœ€å¤§å…è®¸å……ç”µç”µæµ
+#define BMS_MX_DCURRENT 5					 //ç”µæ± åˆ†ç³»ç»Ÿ n æœ€å¤§å…è®¸æ”¾ç”µç”µæµ
+#define BMS_SUM_CURRENT 6					 //ç”µæ± åˆ†ç³»ç»Ÿ n ç”µæ± æ€»ç”µæµ
+#define BMS_SOC 7							 //ç”µæ± åˆ†ç³»ç»Ÿ n ç”µæ±  SOC
+#define BMS_remaining_charging_capacity 8	 //ç”µæ± åˆ†ç³»ç»Ÿ n ç”µæ± å‰©ä½™å¯å……ç”µé‡
+#define BMS_remaining_discharging_capacity 9 //ç”µæ± åˆ†ç³»ç»Ÿ n ç”µæ± å‰©ä½™å¯æ”¾ç”µé‡
+#define BMS_single_MX_voltage 10			 //ç”µæ± åˆ†ç³»ç»Ÿ n å•ä½“æœ€é«˜ç”µå‹
+#define BMS_single_MI_voltage 11			 //ç”µæ± åˆ†ç³»ç»Ÿ n å•ä½“æœ€ä½ç”µå‹
+#define BMS_SYS_STATUS 12					 //ç”µæ± åˆ†ç³»ç»Ÿ n çŠ¶æ€0-åˆå§‹åŒ– 1-åœæœº 2-å¯åŠ¨ä¸­ 3-è¿è¡Œ 4-å¾…æœº 5-æ•…éšœ 9-å…³æœº 255-è°ƒè¯•
+#define BMS_SYS_NEED 13						 //ç”µæ± åˆ†ç³»ç»Ÿ n éœ€æ±‚ 0-ç¦å……ç¦æ”¾(PCSç¦æ­¢å……ç”µæ”¾ç”µ, PCSåº”åœæœºæˆ–å°è„‰å†²) 1-åªèƒ½å……ç”µï¼ˆPCSç¦æ­¢æ”¾ç”µï¼‰ 2-åªèƒ½æ”¾ç”µï¼ˆPCSç¦æ­¢å……ç”µï¼‰ 3-å¯å……å¯æ”¾ï¼ˆæ­£å¸¸ï¼‰
+#define BMS_FAULT_STATUS 14					 //ç”µæ± åˆ†ç³»ç»Ÿ n æ€»æ•…éšœçŠ¶æ€
+enum _BMS_SYS_STATUS //ç”µæ± åˆ†ç³»ç»ŸçŠ¶æ€
 {
-	BMS_ST_INIT = 0,	 //-³õÊ¼»¯
-	BMS_ST_PAUSE = 1,	 //-Í£»ú
-	BMS_ST_START = 2,	 //-Æô¶¯ÖĞ
-	BMS_ST_WORKING = 3,	 //-ÔËĞĞ
-	BMS_ST_WAITTING = 4, //-´ı»ú
-	BMS_ST_FAULT = 5,	 //-¹ÊÕÏ
-	BMS_ST_SHUTDOWN = 9, //-¹Ø»ú
-	BMS_ST_TEST = 255	 //-µ÷ÊÔ
+	BMS_ST_INIT = 0,	 //-åˆå§‹åŒ–
+	BMS_ST_PAUSE = 1,	 //-åœæœº
+	BMS_ST_START = 2,	 //-å¯åŠ¨ä¸­
+	BMS_ST_WORKING = 3,	 //-è¿è¡Œ
+	BMS_ST_WAITTING = 4, //-å¾…æœº
+	BMS_ST_FAULT = 5,	 //-æ•…éšœ
+	BMS_ST_SHUTDOWN = 9, //-å…³æœº
+	BMS_ST_TEST = 255	 //-è°ƒè¯•
 };
 typedef struct
 {
-	unsigned char funid;	 //¹¦ÄÜÂë
-	unsigned short RegStart; //¼Ä´æÆ÷¿ªÊ¼µØÖ·
-	short para;				 //ÉèÖÃ²ÎÊı
-	//	unsigned short numData;//Êı¾İ¸öÊı
+	unsigned char funid;	 //åŠŸèƒ½ç 
+	unsigned short RegStart; //å¯„å­˜å™¨å¼€å§‹åœ°å€
+	short para;				 //è®¾ç½®å‚æ•°
+	//	unsigned short numData;//æ•°æ®ä¸ªæ•°
 } BAMS_Fun_Struct;
 
 extern BAMS_Fun_Struct bamsfun[];
