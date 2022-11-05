@@ -38,7 +38,8 @@
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/arm-linux-gnueabihf/bits/mman.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./string.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./xlocale.h \
- src/simubams/serial.h src/simubams/protocol_bams.h src/include/crc.h \
+ src/simubams/serial.h src/simubams/protocol_bams.h \
+ src/lcd/protocol_lcd.h src/lcd/threads_lcd.h src/include/crc.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/./stdlib.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/arm-linux-gnueabihf/bits/waitflags.h \
  /opt/gcc-linaro-arm-linux-gnueabihf-4.7-2013.03-20130313_linux/bin/../arm-linux-gnueabihf/libc/usr/include/arm-linux-gnueabihf/bits/waitstatus.h \
@@ -129,6 +130,10 @@ src/include/sys.h:
 src/simubams/serial.h:
 
 src/simubams/protocol_bams.h:
+
+src/lcd/protocol_lcd.h:
+
+src/lcd/threads_lcd.h:
 
 src/include/crc.h:
 

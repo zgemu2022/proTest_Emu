@@ -20,7 +20,7 @@ typedef struct
 	unsigned short lenrecv;					 //收到的数据长度
 
 } ModTcp_Frame;
-
+extern char modbus_sockt_state_set[];
 extern int modbus_client_sockptr[];
 void CreateThreads_lcd(void *para);
 #endif

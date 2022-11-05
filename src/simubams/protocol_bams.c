@@ -65,7 +65,7 @@ BAMS_Fun_Struct bamsfun[] = {
 					   // //0-正常 1-故障，故障时，PCS 应停机，封脉冲
 
 };
-
+short para_soc[] = {100, 200, 300, 400, 500, 600};
 static int createFunFrame(int portid, int *pPcsid, int *pLenframe, unsigned char *framebuf)
 {
 	int pcsid = *pPcsid;
@@ -90,8 +90,16 @@ static int createFunFrame(int portid, int *pPcsid, int *pLenframe, unsigned char
 
 	for (i = 0; i < numTask; i++)
 	{
-		framebuf[pos++] = bamsfun[i].para / 256;
-		framebuf[pos++] = bamsfun[i].para % 256;
+		if (i == BMS_SOC)
+		{
+			framebuf[pos++] = para_soc[pcsid] / 256;
+			framebuf[pos++] = para_soc[pcsid] % 256;
+		}
+		else
+		{
+			framebuf[pos++] = bamsfun[i].para / 256;
+			framebuf[pos++] = bamsfun[i].para % 256;
+		}
 	}
 
 	crcval = crc16_check(&framebuf[0], pos);

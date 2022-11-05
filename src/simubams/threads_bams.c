@@ -10,6 +10,8 @@
 #include "serial.h"
 
 #include "protocol_bams.h"
+#include "protocol_lcd.h"
+#include "threads_lcd.h"
 #include "crc.h"
 #include "stdlib.h"
 PARA_BAMS *pParaBams;
@@ -39,8 +41,17 @@ void *serial_thread(void *arg)
 	int pcsid;
 	pcsid = 0;
 	int res;
-	printf("端口号 =%d \"n", portid);
+	printf("serial_thread 端口号 =%d pcs数量=%d\"n", portid,pParaBams->pcs_num[portid]);
+			if(pParaBams->pcs_num[portid]==0)
+			{
+				while(1)
+				{
+					sleep(1);
+				}
+			}
+
 	Uart_Init(portid, pParaBams->baud[portid]);
+
 	while (1)
 	{
 		res = doFunTasks(portid, &pcsid);
@@ -60,9 +71,30 @@ void CreateThreads_BAMS(void *para)
 	pthread_t ThreadID;
 	pthread_attr_t Thread_attr;
 	int i;
+	
 	pParaBams = (PARA_BAMS *)para;
+    pParaBams->pcs_num[0]=0;
+    pParaBams->pcs_num[1]=0;
+
+			for(i=0;i<3;i++)
+			{
+				if(modbus_sockt_state_set[i]!=0)
+				   pParaBams->pcs_num[0]+=yx1246[i];
+			}
+
+
+			for(i=3;i<6;i++)
+			{
+				if(modbus_sockt_state_set[i]!=0)
+				   pParaBams->pcs_num[1]+=yx1246[i];
+
+
+			}
+	printf("每个BAMS中pcs数量 %d %d \n", pParaBams->pcs_num[0], pParaBams->pcs_num[1]);
+	printf("xxxxxxxxxxxxxxxx\n");
 	for (i = 0; i < pParaBams->portnum; i++)
 	{
+ 
 		if (FAIL == CreateSettingThread(&ThreadID, &Thread_attr, (void *)serial_thread, (int *)i, 1, 1))
 		{
 			printf("MODBUS CONNECT THTREAD CREATE ERR!\n");

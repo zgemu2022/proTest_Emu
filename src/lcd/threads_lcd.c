@@ -15,7 +15,7 @@
 #define STATUS_ON 1
 #define STATUS_OFF 0
 char modbus_sockt_state[MAX_CLIENT_CNT];
-char modbus_sockt_state_set[]={1,1,0,1,0,0};
+char modbus_sockt_state_set[]={0,1,0,0,0,1};
 unsigned int modbus_sockt_timer[MAX_CLIENT_CNT];
 int modbus_client_sockptr[MAX_CLIENT_CNT];
 struct sockaddr_in Server_Addr, Client_addr;
@@ -47,7 +47,7 @@ void *Modbus_clientSend_thread(void *arg) // 25
 
 			//			if ((id_frame != 0xffff && (g_num_frame - 1) == id_frame) || (id_frame == 0xffff && g_num_frame == 1))
 			{
-				printf("recv form pcs!!!!! id_frame=%d\n", id_frame);
+				printf("recv form pcs!!!!! id_frame=%d id_thread=%d\n", id_frame,id_thread);
 				int res = AnalysModbus(id_thread, pcsdata.buf, pcsdata.len);
 				if (0 == res)
 				{

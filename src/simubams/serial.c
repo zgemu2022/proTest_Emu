@@ -127,12 +127,12 @@ int ReadComPort (unsigned char comid,void *data, int datalength)
     FD_SET (fd[comid], &fs_read);
     tv_timeout.tv_sec =0;// TIMEOUT_SEC (datalength, get_baudrate ());
     tv_timeout.tv_usec = 200000;//TIMEOUT_USEC;
-    printf("读取文件句柄   fd[%d] = %d\n",comid,fd[comid]);
+ //   printf("读取文件句柄   fd[%d] = %d\n",comid,fd[comid]);
     retval = select (fd[comid] + 1, &fs_read, NULL, NULL, &tv_timeout);
     if (retval > 0) {
 
         retval = read (fd[comid], data, datalength);
-        printf("用文件句柄   fd[%d] = %d \n",comid,fd[comid]);
+   //     printf("用文件句柄   fd[%d] = %d \n",comid,fd[comid]);
         return (retval);
     }
     else {
