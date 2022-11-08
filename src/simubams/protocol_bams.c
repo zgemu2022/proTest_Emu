@@ -65,7 +65,7 @@ BAMS_Fun_Struct bamsfun[] = {
 					   // //0-正常 1-故障，故障时，PCS 应停机，封脉冲
 
 };
-short para_soc[] = {100, 200, 300, 400, 500, 600};
+short para_soc[] = {111, 322, 533, 744, 855, 966};
 static int createFunFrame(int portid, int *pPcsid, int *pLenframe, unsigned char *framebuf)
 {
 	int pcsid = *pPcsid;
@@ -127,7 +127,7 @@ int doFunTasks(int portid, int *pPcsid)
 	unsigned char b1, b2;
 
 	createFunFrame(portid, pPcsid, &lencomm, commbuf);
-	printf("准备发送数据包长度为:%d  内容为：", lencomm);
+	printf("端口portid=%d 准备发送数据包长度为:%d  内容为：",portid, lencomm);
 	for (i = 0; i < lencomm; i++)
 	{
 		printf("%#x ", commbuf[i]);
@@ -136,21 +136,22 @@ int doFunTasks(int portid, int *pPcsid)
 	int res = WriteComPort(portid, commbuf, lencomm);
 	if (res > 0)
 	{
-		printf(" 发送成功 res=%d\n", res);
+		printf(" 端口portid=%d 发送成功 res=%d\n",portid, res);
 	}
 	else
 	{
-		printf("发送失败 ret=%d\n", res);
+		printf("端口portid=%d 发送失败 ret=%d\n",portid, res);
 		return 4;
 	}
 	lentemp = ReadComPort(portid, commbuf, 256);
-	printf("lentemp:%d\n", lentemp);
+
 
 	if (lentemp == 0)
 	{
+		printf("端口portid=%d lentemp:%d\n",portid, lentemp);
 		return 253;
 	}
-	else if (lentemp == -1)
+    else if (lentemp == -1)
 	{
 		return 255;
 	}

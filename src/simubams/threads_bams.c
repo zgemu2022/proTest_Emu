@@ -54,15 +54,16 @@ void *serial_thread(void *arg)
 
 	while (1)
 	{
+		
 		res = doFunTasks(portid, &pcsid);
 		if (res == 0)
 		{
-			printf("收到返回数据！！！！！\n");
+			printf("收到返回数据！！！！！portid=%d\n",portid);
 		}
 		else
-			printf("未能收到返回数据！！！！！res=%d\n", res);
-		sleep(1);
-		// usleep(300000); //延时500ms
+			printf("未能收到返回数据！！！！！res=%d portid=%d\n", res,portid);
+		//sleep(1);
+	    usleep(500000); //延时500ms
 	}
 }
 

@@ -240,7 +240,7 @@ int AnalysModbus(int id_thread, unsigned char *pdata, int len)
 		val = emudata[4] * 256 + emudata[5];
 		Analysfun06(id_thread, devid, regAddr, val);
 
-		myprintbuf(len, pdata);
+	//	myprintbuf(len, pdata);
 		if (send(modbus_client_sockptr[id_thread], pdata, len, 0) < 0)
 		{
 			printf("返回数据失败！！！！ id_thread=%d\n", id_thread);
