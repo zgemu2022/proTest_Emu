@@ -39,7 +39,7 @@ $(info OBJS= $(OBJS))
 protest_emu: $(OBJS)
 	@echo "55555 xxxxx"
 
-	$(CC)   $(OBJS) $(LIB_DIR) -o protest_emu -lcommon -lpthread -lrt -ldl
+	$(CC)   $(OBJS) $(LIB_DIR) -o protest_emu -lcommon -lpthread -lm -lrt -ldl
 #	-cp testpro_emu  /mnt/hgfs/share_E/zgEMU/Program/protest_emu;
 	-cp protest_emu  /mnt/hgfs/Tcu_lib/protest_emu
 # $(CC)   $(OBJS) $(LIB_DIR) -o bms_simu1 -lcommon -lpthread -lrt -ldl

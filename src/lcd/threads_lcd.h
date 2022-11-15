@@ -20,7 +20,12 @@ typedef struct
 	unsigned short lenrecv;					 //收到的数据长度
 
 } ModTcp_Frame;
-extern char modbus_sockt_state_set[];
+enum LCD_TASK_ID //指令列表
+{
+	ADJUST_PW =1,                 //调节有功功率
+    ADJUST_QW =2,                 //调节无功功率
+
+};
 extern int modbus_client_sockptr[];
 void CreateThreads_lcd(void *para);
 #endif

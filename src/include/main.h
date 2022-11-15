@@ -2,6 +2,8 @@
 #define _MAIN_H_
 
 #define PORTNUM_MAX    2
+#define MAX_PCS_NUM 6 //每个LCD下最多包含pcs的个数
+#define MAX_LCD_NUM 6
 typedef struct
 {
 	unsigned char portnum;//接入数量
@@ -17,5 +19,13 @@ typedef struct
 	unsigned short server_port[6];
 
 } PARA_LCD;
+
+extern char modbus_sockt_state_set[];
+extern unsigned short yx1246[];
+extern int g_maxid_pcs;
+extern int g_flag_RecvNeed_LCD;
+
+extern unsigned char flag_RecvNeed_PCS[];
+
 int myprintbuf(int len, unsigned char *buf);
 #endif

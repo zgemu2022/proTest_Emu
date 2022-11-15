@@ -25,7 +25,7 @@ int g_sys_status = SER_WAITTING_START;
 int g_sys_status_last = SER_WAITTING_START;
 
 static iec61850_shm_packet_t *shm_addr;
-
+int total_pcsnum=0;
 static void emu_commnication_status_setting(void)
 {
 
@@ -86,6 +86,23 @@ static void ems_start_stop_onepcs(unsigned char type, unsigned char lcdid, unsig
 	printf("ems_start_onepcs发送的数据  %d  \n", (int)shm_addr->shm_que2.slist[i].data[0]);
 	shm_addr->shm_que2.slist[i].el_tag = _BOOL_;
 }
+static void ems_adjust_pw_qw(unsigned char type,float val)
+{
+
+	int i;
+
+	i = shm_addr->shm_que2.wpos;
+	shm_addr->shm_que2.wpos++;
+	shm_addr->shm_que2.slist[i].sAddr.portID = 1;
+	shm_addr->shm_que2.slist[i].sAddr.devID = 1;
+	shm_addr->shm_que2.slist[i].sAddr.typeID = 6;
+    shm_addr->shm_que2.slist[i].sAddr.pointID = type;
+	shm_addr->shm_que2.slist[i].data_size = 4;
+	shm_addr->shm_que2.slist[i].el_tag = _FLOAT_;
+    *(float*)shm_addr->shm_que2.slist[i].data=val;
+
+}
+
 void bms_setting(int sys_status)
 {
 
@@ -106,6 +123,8 @@ void bms_setting(int sys_status)
 	case EMS_STOP_ONE_PCS:
 		ems_start_stop_onepcs(0, 0, 3);
 		break;
+	case ADJUST_EMU_QW:
+	    ems_adjust_pw_qw(2,14*total_pcsnum);
 		break;
 	default:
 		break;
@@ -168,10 +187,16 @@ int anslize()
 		data_info_t temp_data = shm_addr->shm_que1.slist[i];
 		if (temp_data.sAddr.portID == 1 && temp_data.sAddr.devID == 1 && temp_data.sAddr.typeID == 2 && temp_data.sAddr.pointID == 0)
 		{
-			printf("状态进入设置EMS通信状态设置\n");
+
+			total_pcsnum = *(int *)temp_data.data;
+
+			printf("获得emu管理的全部pcs数量 %d！\n",total_pcsnum);
+
 			// if(g_sys_status == SER_WAITTING_START)
 			g_sys_status = EMS_COMMUNICATION_STATUS_SETTING; //状态进入设置EMS通信状态设置
 			g_sys_status_last = SER_WAITTING_START;
+			printf("状态进入设置EMS通信状态设置\n");
+			
 		}
 		else if (temp_data.sAddr.portID == 1 && temp_data.sAddr.devID == 1 && temp_data.sAddr.typeID == 2 && temp_data.sAddr.pointID == 19)
 		{

@@ -4,7 +4,8 @@
 		"threads_plc.h": "c",
 		"threads_lcd.h": "c",
 		"my_socket.h": "c",
-		"protocol_bams.h": "c"
+		"protocol_bams.h": "c",
+		"main.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "Disabled"
 }

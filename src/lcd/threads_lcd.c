@@ -15,7 +15,7 @@
 #define STATUS_ON 1
 #define STATUS_OFF 0
 char modbus_sockt_state[MAX_CLIENT_CNT];
-char modbus_sockt_state_set[]={0,1,0,0,0,1};
+
 unsigned int modbus_sockt_timer[MAX_CLIENT_CNT];
 int modbus_client_sockptr[MAX_CLIENT_CNT];
 struct sockaddr_in Server_Addr, Client_addr;
@@ -47,7 +47,7 @@ void *Modbus_clientSend_thread(void *arg) // 25
 
 			//			if ((id_frame != 0xffff && (g_num_frame - 1) == id_frame) || (id_frame == 0xffff && g_num_frame == 1))
 			{
-				printf("recv form pcs!!!!! id_frame=%d id_thread=%d\n", id_frame,id_thread);
+				printf("recv form pcs!!!!! id_frame=%d id_thread=%d\n", id_frame, id_thread);
 				int res = AnalysModbus(id_thread, pcsdata.buf, pcsdata.len);
 				if (0 == res)
 				{
@@ -185,7 +185,7 @@ void *Modbus_clientRecv_thread(void *arg) // 25
 				else
 				{
 					i = 0;
-					printf("接收线程接收成功！！！！！ modbus_sockt_state[%d]=%d\r\n",id_thread, modbus_sockt_state[id_thread]);
+					printf("接收线程接收成功！！！！！ modbus_sockt_state[%d]=%d\r\n", id_thread, modbus_sockt_state[id_thread]);
 				}
 			}
 			else
@@ -267,7 +267,7 @@ void CreateThreads_lcd(void *para)
 
 	for (i = 0; i < pParaLcd->lcdnum; i++)
 	{
-		if(modbus_sockt_state_set[i]==0)
+		if (modbus_sockt_state_set[i] == 0)
 			continue;
 		modbus_sockt_state[i] = STATUS_OFF;
 		if (FAIL == CreateSettingThread(&ThreadID, &Thread_attr, (void *)Modbus_ServerConnectThread, (int *)i, 1, 1))
@@ -277,6 +277,6 @@ void CreateThreads_lcd(void *para)
 			exit(1);
 		}
 	}
-
+	initData();
 	printf("12345 ssdlh\n");
 }

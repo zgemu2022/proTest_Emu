@@ -17,6 +17,7 @@
 #define BMS_SYS_STATUS 12					 //电池分系统 n 状态0-初始化 1-停机 2-启动中 3-运行 4-待机 5-故障 9-关机 255-调试
 #define BMS_SYS_NEED 13						 //电池分系统 n 需求 0-禁充禁放(PCS禁止充电放电, PCS应停机或封脉冲) 1-只能充电（PCS禁止放电） 2-只能放电（PCS禁止充电） 3-可充可放（正常）
 #define BMS_FAULT_STATUS 14					 //电池分系统 n 总故障状态
+#define MAX_SEND_NUM 1
 enum _BMS_SYS_STATUS //电池分系统状态
 {
 	BMS_ST_INIT = 0,	 //-初始化
@@ -33,10 +34,10 @@ typedef struct
 	unsigned char funid;	 //功能码
 	unsigned short RegStart; //寄存器开始地址
 	short para;				 //设置参数
-	//	unsigned short numData;//数据个数
+							 //	unsigned short numData;//数据个数
 } BAMS_Fun_Struct;
 
 extern BAMS_Fun_Struct bamsfun[];
 extern int g_bms_status;
-int doFunTasks(int portid, int *pPcsid);
+int doFunTasks(int portid, int *pPcsid, int *pNumsned);
 #endif

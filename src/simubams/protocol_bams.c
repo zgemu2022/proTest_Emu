@@ -13,6 +13,7 @@
 #include "threads_bams.h"
 #include "main.h"
 int g_bms_status = BMS_ST_INIT;
+
 BAMS_Fun_Struct bamsfun[] = {
 
 	{0x10, 0x0001, 15001}, //电池分系统 n 最大允许充电功率
@@ -66,12 +67,13 @@ BAMS_Fun_Struct bamsfun[] = {
 
 };
 short para_soc[] = {111, 322, 533, 744, 855, 966};
-static int createFunFrame(int portid, int *pPcsid, int *pLenframe, unsigned char *framebuf)
+static int createFunFrame(int portid, int *pPcsid, int *pNumsend, int *pLenframe, unsigned char *framebuf)
 {
 	int pcsid = *pPcsid;
+	int numsend = *pNumsend;
 	int numTask = ARRAY_LEN(bamsfun);
 
-	printf("PROTEST_EMU createFunFrame:portid=%d pcsid=%d Bams'sNum=%d\n", portid, pcsid, pParaBams->pcs_num[portid]);
+	printf("PROTEST_EMU createFunFrame:portid=%d pcsid=%d numsend=%d Bams'sNum=%d\n", portid, pcsid, numsend, pParaBams->pcs_num[portid]);
 	unsigned short regstart = bamsfun[0].RegStart + 16 * pcsid;
 	int pos = 0; //, pos1;
 	int len = 0;
@@ -105,18 +107,24 @@ static int createFunFrame(int portid, int *pPcsid, int *pLenframe, unsigned char
 	crcval = crc16_check(&framebuf[0], pos);
 	framebuf[pos++] = crcval / 256;
 	framebuf[pos++] = crcval % 256;
-
-	pcsid++;
-	if (pcsid == (pParaBams->pcs_num[portid]))
+	numsend++;
+	if (numsend == MAX_SEND_NUM)
 	{
-		pcsid = 0;
+		pcsid++;
+		if (pcsid == (pParaBams->pcs_num[portid]))
+		{
+			pcsid = 0;
+		}
+		numsend = 0;
 	}
+
 	*pLenframe = pos;
 	*pPcsid = pcsid;
+	*pNumsend = numsend;
 	return 0;
 }
 
-int doFunTasks(int portid, int *pPcsid)
+int doFunTasks(int portid, int *pPcsid, int *pNumsned)
 {
 	unsigned char commbuf[256];
 	bzero(commbuf, sizeof(commbuf));
@@ -126,8 +134,8 @@ int doFunTasks(int portid, int *pPcsid)
 	unsigned short crcval;
 	unsigned char b1, b2;
 
-	createFunFrame(portid, pPcsid, &lencomm, commbuf);
-	printf("端口portid=%d 准备发送数据包长度为:%d  内容为：",portid, lencomm);
+	createFunFrame(portid, pPcsid, pNumsned, &lencomm, commbuf);
+	printf("端口portid=%d 准备发送数据包长度为:%d  内容为：", portid, lencomm);
 	for (i = 0; i < lencomm; i++)
 	{
 		printf("%#x ", commbuf[i]);
@@ -136,22 +144,21 @@ int doFunTasks(int portid, int *pPcsid)
 	int res = WriteComPort(portid, commbuf, lencomm);
 	if (res > 0)
 	{
-		printf(" 端口portid=%d 发送成功 res=%d\n",portid, res);
+		printf(" 端口portid=%d 发送成功 res=%d\n", portid, res);
 	}
 	else
 	{
-		printf("端口portid=%d 发送失败 ret=%d\n",portid, res);
+		printf("端口portid=%d 发送失败 ret=%d\n", portid, res);
 		return 4;
 	}
 	lentemp = ReadComPort(portid, commbuf, 256);
 
-
 	if (lentemp == 0)
 	{
-		printf("端口portid=%d lentemp:%d\n",portid, lentemp);
+		printf("端口portid=%d lentemp:%d\n", portid, lentemp);
 		return 253;
 	}
-    else if (lentemp == -1)
+	else if (lentemp == -1)
 	{
 		return 255;
 	}
