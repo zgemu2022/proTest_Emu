@@ -170,13 +170,12 @@ int BakLcdFun03(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 	unsigned char sendbuf[256] = {0};
 	int pos = 0;
 	unsigned char len = 0;
-	unsigned char *pdata;
+	unsigned char pdata[256];
 	unsigned char pcsid;
-	unsigned char data_buf[4];
+
 
 	if (reg_addr == 0x1246)
 	{
-		pdata = &data_buf[0];
 		pdata[0] = yx1246[id_thread] / 256;
 		pdata[1] = yx1246[id_thread] % 256;
 
@@ -185,13 +184,13 @@ int BakLcdFun03(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 	else if (reg_addr == 0x1240)
 	{
 		printf("整机遥信功能码0x03，lcd[%d]整机遥信，数据长度=14 \n", id_thread);
-		pdata = yxData_ZJ_1240;
+		memcpy(pdata , yxData_ZJ_1240,sizeof(yxData_ZJ_1240));
 		len = 14;
 	}
 	else if (reg_addr == 0x1200 || reg_addr == 0x1210 || reg_addr == 0x1220 || reg_addr == 0x1230 || reg_addr == 0x1250 || reg_addr == 0x1260)
 	{
 		pcsid = getPcsid(reg_addr);
-		pdata = yxData_MK;
+		memcpy(pdata , yxData_MK,sizeof(yxData_MK));
 		if (cmd_start_pcs[id_thread][pcsid - 1] == 0xff00)
 		{
 			pdata[u16_InvRunState1 * 2] = 0x40;
@@ -199,22 +198,26 @@ int BakLcdFun03(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 			printf("启动情况下的遥信数据\n");
 			myprintbuf(30, pdata);
 		}
+		else
+		    printf("关机情况下的遥信数据\n");
 		len = 30;
 		printf("模块遥信功能码0x03，lcd[%d]，模块编号pcsid=%d 遥信数据长度=30 \n", id_thread, pcsid);
 	}
 	else if (reg_addr == 0x1174)
 	{
 		printf("整机遥测功能码0x03，lcd[%d]整机遥测，数据长度=30 \n", id_thread);
-		pdata = ycData_ZJ_1174;
+		memcpy(pdata , ycData_ZJ_1174,sizeof(ycData_ZJ_1174));
 		len = 30;
 	}
 	else if (reg_addr == 0x1100 || reg_addr == 0x111D || reg_addr == 0x113A || reg_addr == 0x1157 || reg_addr == 0x1190 || reg_addr == 0x11AD)
 	{
 		pcsid = getPcsid(reg_addr);
-		pdata = ycData_MK;
+		
+		memcpy(pdata , ycData_MK,sizeof(ycData_MK));
 		short aw;
 		if (cmd_start_pcs[id_thread][pcsid - 1] == 0xff00)
 		{
+		    printf("开机情况下发送遥测数据 cmd_start_pcs[id_thread][pcsid - 1]=%x\n",cmd_start_pcs[id_thread][pcsid - 1]);
 			pdata[Active_power * 2] = val_pw[id_thread][pcsid - 1] / 256;
 			pdata[Active_power * 2 + 1] = val_pw[id_thread][pcsid - 1] % 256;
 			pdata[Reactive_power * 2] = val_qw[id_thread][pcsid - 1] / 256;
@@ -223,6 +226,8 @@ int BakLcdFun03(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 			pdata[Apparent_power * 2] = aw / 256;
 			pdata[Apparent_power * 2 + 1] = aw % 256;
 		}
+		else
+		 	printf("关机情况下发送遥测数据 cmd_start_pcs[id_thread][pcsid - 1]=%x\n",cmd_start_pcs[id_thread][pcsid - 1]);
 
 		len = 58;
 		printf("模块遥测功能码0x03，lcd[%d]，模块编号pcsid=%d 遥测数据长度=58 val=%d\n", id_thread, pcsid, val_qw[id_thread][pcsid - 1]);
@@ -312,6 +317,12 @@ int Analysfun06(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 			if (check_task_finished(id_thread, pcsid, ADJUST_PW) == ADJUST_PW)
 			{
 				printf("LCD[%d]全部pcs收到有功功率调节指令 pcsid=%d val=%d\n", id_thread,pcsid,val);
+				if (g_sys_status_last == ADJUST_EMU_PW && g_sys_status == SER_IDEL)
+				{
+					printf("设置EMU停机操作\n");
+					g_sys_status = EMS_START_EMU; 
+					g_sys_status_last = ADJUST_EMU_PW;
+				}				
 
 			}
 
@@ -323,7 +334,7 @@ int Analysfun06(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 		printf("在PQ并且恒功率模式下设置无功功率，设置lcdid=%d 模块编号pcsid=%d 为val=%d\n", id_thread, pcsid, val);
 			if (check_task_finished(id_thread, pcsid, ADJUST_QW) == ADJUST_QW)
 			{
-				printf("LCD[%d]全部pcs收到无功功率调节指令 pcsid=%d val=%d\n", id_thread,pcsid,val);
+				printf("LCD[%d]全部pcs收到无功功率调节指令 pcsid=%d val=%d g_sys_status_last=%d g_sys_status=%d\n", id_thread,pcsid,val,g_sys_status_last,g_sys_status);
 				if (g_sys_status_last == ADJUST_EMU_QW && g_sys_status == SER_IDEL)
 				{
 					printf("设置EMU停机操作\n");
@@ -344,11 +355,11 @@ int Analysfun06(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 			printf("LCD[%d]PCS[%d]收到开机指令\n", id_thread, pcsid);
 			if (checkOn_off_finish(id_thread, pcsid, 0x55) == 0x55)
 			{
-				printf("LCD[%d]全部pcs收到开机指令\n", id_thread);
+				printf("EMU全部下的pcs收到开机指令\n");
 				if (g_sys_status_last == EMS_START_EMU && g_sys_status == SER_IDEL)
 				{
-					printf("设置LCD[%d]进行无功功率调节\n", id_thread);
-					g_sys_status = ADJUST_EMU_QW; //状态进入设置EMS通信状态设置
+					printf("EMU设置进行无功功率调节\n");
+					g_sys_status = ADJUST_EMU_QW; //EMU设置进行无功功率调节
 					g_sys_status_last = EMS_START_EMU;
 				}
 			}
@@ -359,6 +370,12 @@ int Analysfun06(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 			if (checkOn_off_finish(id_thread, pcsid, 0xaa) == 0xaa)
 			{
 				printf("LCD[%d]全部pcs收到关机指令\n", id_thread);
+				if (g_sys_status_last == EMS_STOP_EMU && g_sys_status == SER_IDEL)
+				{
+					printf("EMU设置进行有功调节\n");
+					g_sys_status = ADJUST_EMU_PW; //EMU设置进行无功功率调节
+					g_sys_status_last = EMS_STOP_EMU;
+				}				
 			}
 		}
 		else

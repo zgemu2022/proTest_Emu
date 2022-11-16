@@ -66,7 +66,8 @@ BAMS_Fun_Struct bamsfun[] = {
 					   // //0-正常 1-故障，故障时，PCS 应停机，封脉冲
 
 };
-short para_soc[] = {111, 322, 533, 744, 855, 966};
+//short para_soc[] = {111, 322, 533, 744, 855, 966};
+short para_soc[] = {500, 500, 500, 500, 500, 500};
 static int createFunFrame(int portid, int *pPcsid, int *pNumsend, int *pLenframe, unsigned char *framebuf)
 {
 	int pcsid = *pPcsid;

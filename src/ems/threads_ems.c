@@ -90,7 +90,7 @@ static void ems_adjust_pw_qw(unsigned char type,float val)
 {
 
 	int i;
-
+	printf("ems_adjust_pw_qw 功率调节 type=%d\n",type);
 	i = shm_addr->shm_que2.wpos;
 	shm_addr->shm_que2.wpos++;
 	shm_addr->shm_que2.slist[i].sAddr.portID = 1;
@@ -100,7 +100,7 @@ static void ems_adjust_pw_qw(unsigned char type,float val)
 	shm_addr->shm_que2.slist[i].data_size = 4;
 	shm_addr->shm_que2.slist[i].el_tag = _FLOAT_;
     *(float*)shm_addr->shm_que2.slist[i].data=val;
-
+    
 }
 
 void bms_setting(int sys_status)
@@ -123,7 +123,12 @@ void bms_setting(int sys_status)
 	case EMS_STOP_ONE_PCS:
 		ems_start_stop_onepcs(0, 0, 3);
 		break;
+	case ADJUST_EMU_PW:
+
+	    ems_adjust_pw_qw(1,18*total_pcsnum);
+		break;	
 	case ADJUST_EMU_QW:
+
 	    ems_adjust_pw_qw(2,14*total_pcsnum);
 		break;
 	default:
@@ -200,9 +205,10 @@ int anslize()
 		}
 		else if (temp_data.sAddr.portID == 1 && temp_data.sAddr.devID == 1 && temp_data.sAddr.typeID == 2 && temp_data.sAddr.pointID == 19)
 		{
-			printf("共享内存收到遥测统计数据，系统状态进入启动！\n");
+			printf("111共享内存收到遥测统计数据，系统状态进入启动！\n");
 			if (g_sys_status_last == EMS_COMMUNICATION_STATUS_SETTING && g_sys_status == SER_IDEL)
 			{
+				printf("222共享内存收到遥测统计数据，系统状态进入启动！\n");
 				g_sys_status = EMS_START_EMU; // EMS_START_ONE_PCS;
 			}
 		}
