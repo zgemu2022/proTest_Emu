@@ -10,7 +10,7 @@
 #include "threads_ems.h"
 #include "threads_plc.h"
 
-char modbus_sockt_state_set[] = {0, 1, 0, 0, 0, 1};
+char modbus_sockt_state_set[] = {1, 1, 1, 1, 1, 1};
 unsigned short yx1246[] = {0x6, 0x5, 0x4, 0x5, 0x5, 0x4};
 int g_maxid_pcs=0;
 int g_flag_RecvNeed_LCD = 0;
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     // CreateThreads_ems();
 	// CreateThreads_PLC();
 	//CreateThreads_BAMS((void *)&para_bms);
-    CreateThreads_ems();
+    //CreateThreads_ems();
 	//  CreateThreads_PLC();
 	CreateThreads_lcd((void *)&para_lcd);
 	CreateThreads_BAMS((void *)&para_bms);
