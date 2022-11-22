@@ -1,5 +1,5 @@
-#ifndef _THREADS_H_
-#define _THREADS_H_
+#ifndef _THREADS_EMS_H_
+#define _THREADS_EMS_H_
 
 #define _SHORT_ 2
 #define _BOOL_ 3

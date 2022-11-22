@@ -67,7 +67,7 @@ BAMS_Fun_Struct bamsfun[] = {
 
 };
 //short para_soc[] = {111, 322, 533, 744, 855, 966};
-short para_soc[] = {500, 500, 500, 500, 500, 500};
+short para_soc[] = {500, 500, 500, 500, 500, 500,500, 500, 500, 500, 500, 500,500, 500, 500, 500, 500, 500};
 static int createFunFrame(int portid, int *pPcsid, int *pNumsend, int *pLenframe, unsigned char *framebuf)
 {
 	int pcsid = *pPcsid;

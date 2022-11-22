@@ -25,6 +25,8 @@ unsigned short val_qw[6][6];
 unsigned short val_pw[6][6];
 unsigned short cmd_start_pcs[6][6];
 unsigned short status_pcs_lcd[6][6];
+
+int g_lcd_status_end =0;
 int check_task_finished(int lcdid, int pcsid, int taskid)
 {
 	static int taskid_last[] = {0,0};
@@ -319,9 +321,10 @@ int Analysfun06(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 				printf("LCD[%d]全部pcs收到有功功率调节指令 pcsid=%d val=%d\n", id_thread,pcsid,val);
 				if (g_sys_status_last == ADJUST_EMU_PW && g_sys_status == SER_IDEL)
 				{
-					printf("设置EMU停机操作\n");
+					printf("设置EMU开机操作\n");
 					g_sys_status = EMS_START_EMU; 
 					g_sys_status_last = ADJUST_EMU_PW;
+					g_lcd_status_end = 1;
 				}				
 
 			}
@@ -356,7 +359,7 @@ int Analysfun06(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 			if (checkOn_off_finish(id_thread, pcsid, 0x55) == 0x55)
 			{
 				printf("EMU全部下的pcs收到开机指令\n");
-				if (g_sys_status_last == EMS_START_EMU && g_sys_status == SER_IDEL)
+				if (g_sys_status_last == EMS_START_EMU && g_sys_status == SER_IDEL && g_lcd_status_end == 0)
 				{
 					printf("EMU设置进行无功功率调节\n");
 					g_sys_status = ADJUST_EMU_QW; //EMU设置进行无功功率调节

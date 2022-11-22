@@ -4,6 +4,9 @@
 #define PORTNUM_MAX    2
 #define MAX_PCS_NUM 6 //每个LCD下最多包含pcs的个数
 #define MAX_LCD_NUM 6
+
+#define STATUS_ON 1
+#define STATUS_OFF 0
 typedef struct
 {
 	unsigned char portnum;//接入数量

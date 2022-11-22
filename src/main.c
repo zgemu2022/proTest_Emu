@@ -71,11 +71,11 @@ int main(int argc, char *argv[])
     // CreateThreads_ems();
 	// CreateThreads_PLC();
 	//CreateThreads_BAMS((void *)&para_bms);
-    //CreateThreads_ems();
+    CreateThreads_ems();
 	//  CreateThreads_PLC();
 	CreateThreads_lcd((void *)&para_lcd);
 	CreateThreads_BAMS((void *)&para_bms);
-
+    CreateThreads_plc();
 	while (1)
 	{
 	}
