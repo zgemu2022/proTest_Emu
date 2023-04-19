@@ -37,7 +37,8 @@ typedef struct
 							 //	unsigned short numData;//数据个数
 } BAMS_Fun_Struct;
 
-extern BAMS_Fun_Struct bamsfun[];
+// extern BAMS_Fun_Struct bamsfun[];
+extern BAMS_Fun_Struct bamsfun[14][16];
 extern int g_bms_status;
 int doFunTasks(int portid, int *pPcsid, int *pNumsned);
 #endif

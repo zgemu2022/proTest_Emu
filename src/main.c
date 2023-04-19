@@ -11,7 +11,7 @@
 #include "threads_plc.h"
 
 char modbus_sockt_state_set[] = {1, 1, 1, 1, 1, 1};
-unsigned short yx1246[] = {0x6, 0x5, 0x4, 0x5, 0x5, 0x4};
+unsigned short yx1246[] = {0x5, 0x5, 0x4, 0x5, 0x5, 0x4};
 int g_maxid_pcs=0;
 int g_flag_RecvNeed_LCD = 0;
 
@@ -35,7 +35,7 @@ int myprintbuf(int len, unsigned char *buf)
 	printf("\n");
 	return 0;
 }
-PARA_BAMS para_bms = {2, {9600, 9600}, {0, 1}, {6, 5}};
+PARA_BAMS para_bms = {2, {9600, 9600}, {1, 1}, {6, 5}};
 
 PARA_LCD para_lcd = {6, {{"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}}, {1502, 1503, 1504, 1505, 1506, 1507}};
 int main(int argc, char *argv[])
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
     // CreateThreads_ems();
 	// CreateThreads_PLC();
 	//CreateThreads_BAMS((void *)&para_bms);
-    CreateThreads_ems();
+    // CreateThreads_ems();
 	//  CreateThreads_PLC();
 	CreateThreads_lcd((void *)&para_lcd);
 	CreateThreads_BAMS((void *)&para_bms);

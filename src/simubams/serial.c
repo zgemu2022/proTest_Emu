@@ -65,10 +65,10 @@ int OpenComPort (int ComPort, int baudrate, int databit,
  * */
     switch (ComPort) {
     case 0:
-         pComPort = "/dev/tts5";
+         pComPort = "/dev/tts7";
         break;
     case 1:
-        pComPort = "/dev/tts6"; 
+        pComPort = "/dev/tts8"; 
 
        break;
     case 2:
@@ -156,7 +156,7 @@ int WriteComPort (unsigned char comid,unsigned char * data, int datalength)
     FD_ZERO (&fs_write);
     FD_SET (fd[comid], &fs_write);
     tv_timeout.tv_sec = 0;//TIMEOUT_SEC (datalength, get_baudrate ());
-    tv_timeout.tv_usec = 50000;//TIMEOUT_USEC;
+    tv_timeout.tv_usec = 500000;//TIMEOUT_USEC;
     printf("发送文件句柄   fd[%d] = %d\n",comid,fd[comid]);
     for (total_len = 0, len = 0; total_len < datalength;) {
         retval = select (fd[comid] + 1, NULL, &fs_write, NULL, &tv_timeout);
