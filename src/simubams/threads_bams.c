@@ -38,7 +38,7 @@ void *serial_thread(void *arg)
 	int num_send = 0;
 	pcsid = 0;
 	int res;
-	printf("serial_thread 端口号 =%d pcs数量=%d\"n", portid, pParaBams->pcs_num[portid]);
+	printf("serial_thread 端口号 =%d pcs数量=%d\n", portid, pParaBams->pcs_num[portid]);
 	if (pParaBams->pcs_num[portid] == 0)
 	{
 		while (1)
