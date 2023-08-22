@@ -59,14 +59,14 @@ int main(int argc, char *argv[])
 
 	if (j == 0)
 	{
-		printf("Ã»ÓÐÓÐÐ§µÄpcs´æÔÚ\n");
+		printf("没有有效的pcs存在\n");
 	}
 	else
 	{
 		g_maxid_pcs = (j - 1) * 6 + yx1246[j - 1];
 	}
 
-	printf("×î´óµÄpcs±àºÅ g_maxid_pcs=%d g_flag_RecvNeed_LCD=%x  \n", g_maxid_pcs, g_flag_RecvNeed_LCD);
+	printf("最大的pcs编号 g_maxid_pcs=%d g_flag_RecvNeed_LCD=%x  \n", g_maxid_pcs, g_flag_RecvNeed_LCD);
 	printf("flag_RecvNeed_PCS %x  %x  %x  %x  %x %x\n", flag_RecvNeed_PCS[0], flag_RecvNeed_PCS[1], flag_RecvNeed_PCS[2], flag_RecvNeed_PCS[3], flag_RecvNeed_PCS[4], flag_RecvNeed_PCS[5]);
 
 	CreateThreads_lcd((void *)&para_lcd);

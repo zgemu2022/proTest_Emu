@@ -60,7 +60,7 @@ void *serial_thread(void *arg)
 			printf("未能收到返回数据！！！！！res=%d portid=%d\n", res, portid);
 		// sleep(1);
 		printf("当前BAMS 端口portid=%d pcsid=%d\n", portid, pcsid);
-		usleep(500000); // 延时500ms
+		usleep(200000); // 延时500ms
 	}
 }
 
