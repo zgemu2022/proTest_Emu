@@ -11,7 +11,7 @@
 #include "threads_plc.h"
 
 char modbus_sockt_state_set[] = {1, 1, 1, 1, 1, 1};
-unsigned short yx1246[] = {0x6, 0x5, 0x4, 0x5, 0x5, 0x4};
+unsigned short yx1246[] = {0x5, 0x5, 0x5, 0x5, 0x5, 0x5};
 int g_maxid_pcs = 0;
 int g_flag_RecvNeed_LCD = 0;
 
@@ -35,9 +35,11 @@ int myprintbuf(int len, unsigned char *buf)
 	printf("\n");
 	return 0;
 }
-PARA_BAMS para_bms = {2, {9600, 9600}, {0, 1}, {6, 5}};
+PARA_BAMS para_bms = {2, {9600, 9600, 9600, 9600}, {1, 1, 1, 1}, {15, 15, 8, 8}};
 
-PARA_LCD para_lcd = {6, {{"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}}, {1502, 1503, 1504, 1505, 1506, 1507}};
+// PARA_LCD para_lcd = {6, {{"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}, {"192.168.2.230"}}, {1502, 1503, 1504, 1505, 1506, 1507}};
+PARA_LCD para_lcd = {6, {{"192.168.4.200"}, {"192.168.4.200"}, {"192.168.4.200"}, {"192.168.4.200"}, {"192.168.4.200"}, {"192.168.4.200"}, {"192.168.4.200"}}, {1502, 1503, 1504, 1505, 1506, 1507}};
+
 int main(int argc, char *argv[])
 {
 	int i, j = 0;
@@ -57,21 +59,16 @@ int main(int argc, char *argv[])
 
 	if (j == 0)
 	{
-		printf("没有有效的pcs存在\n");
+		printf("Ã»ÓÐÓÐÐ§µÄpcs´æÔÚ\n");
 	}
 	else
 	{
 		g_maxid_pcs = (j - 1) * 6 + yx1246[j - 1];
 	}
 
-	printf("最大的pcs编号 g_maxid_pcs=%d g_flag_RecvNeed_LCD=%x  \n", g_maxid_pcs, g_flag_RecvNeed_LCD);
+	printf("×î´óµÄpcs±àºÅ g_maxid_pcs=%d g_flag_RecvNeed_LCD=%x  \n", g_maxid_pcs, g_flag_RecvNeed_LCD);
 	printf("flag_RecvNeed_PCS %x  %x  %x  %x  %x %x\n", flag_RecvNeed_PCS[0], flag_RecvNeed_PCS[1], flag_RecvNeed_PCS[2], flag_RecvNeed_PCS[3], flag_RecvNeed_PCS[4], flag_RecvNeed_PCS[5]);
-	printf("12345 12345 \n");
-	// CreateThreads_ems();
-	// CreateThreads_PLC();
-	// CreateThreads_BAMS((void *)&para_bms);
-	CreateThreads_ems();
-	//  CreateThreads_PLC();
+
 	CreateThreads_lcd((void *)&para_lcd);
 	CreateThreads_BAMS((void *)&para_bms);
 	CreateThreads_plc();

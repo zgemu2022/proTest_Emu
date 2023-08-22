@@ -263,7 +263,6 @@ void CreateThreads_lcd(void *para)
 	pthread_attr_t Thread_attr;
 	pParaLcd = (PARA_LCD *)para;
 	int i;
-
 	for (i = 0; i < pParaLcd->lcdnum; i++)
 	{
 		if (modbus_sockt_state_set[i] == 0)

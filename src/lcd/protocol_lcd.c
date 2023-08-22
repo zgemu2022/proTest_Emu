@@ -15,55 +15,57 @@
 #include "YX_Define.h"
 #include <math.h>
 #include "threads_ems.h"
-unsigned char yxData_ZJ_1240[] = {0x0, 0x43, 0x0, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x6};																						  //整机遥信数据数据长度=14,数据个数=7
-unsigned char yxData_MK[] = {0x0, 0x41, 0x50, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x80, 0x0, 0x0, 0x4, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x0, 0x80, 0x1};			  //模块遥信数据
-unsigned char ycData_ZJ_1174[] = {0x0, 0x1, 0x0, 0x3, 0x0, 0x0, 0x1b, 0x4e, 0x1b, 0x25, 0x1b, 0xe, 0x0, 0x0, 0x0, 0x1, 0x0, 0x2, 0x0, 0x0, 0x13, 0x88, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x25, 0x4e}; //整机遥测数据数据长度=30
+unsigned char yxData_ZJ_1240[] = {0x0, 0x43, 0x0, 0x2, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x0, 0x0, 0x6};																						  // 整机遥信数据数据长度=14,数据个数=7
+unsigned char yxData_MK[] = {0x00, 0x41, 0x50, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x1, 0x2, 0x80, 0x0, 0x0, 0x4, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x8, 0x0, 0x0, 0x0, 0x0, 0x80, 0x1};		  // 模块遥信数据
+unsigned char ycData_ZJ_1174[] = {0x0, 0x1, 0x0, 0x3, 0x0, 0x0, 0x1b, 0x4e, 0x1b, 0x25, 0x1b, 0xe, 0x0, 0x0, 0x0, 0x1, 0x0, 0x2, 0x0, 0x0, 0x13, 0x88, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x25, 0x4e}; // 整机遥测数据数据长度=30
+// unsigned char ycData_MK[] = {0x0, 0x4, 0x0, 0x1, 0x0, 0x0, 0x1b, 0x85, 0x1b, 0x91, 0x1b, 0x87, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x0, 0x13, 0x88, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
+// 							 0x5, 0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x00, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}; //模块遥测数据，数据长度58 数据个数29
+/*
 unsigned char ycData_MK[] = {0x0, 0x4, 0x0, 0x1, 0x0, 0x0, 0x1b, 0x85, 0x1b, 0x91, 0x1b, 0x87, 0x0, 0x1, 0x0, 0x1, 0x0, 0x1, 0x0, 0x0, 0x13, 0x88, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
-							 0x5, 0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}; //模块遥测数据，数据长度58 数据个数29
-
+							  0x5, 0x0, 0x1, 0x0, 0x0, 0x0, 0x0, 0x0, 0x32, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0}; // 模块遥测数据，数据长度58 数据个数29
+*/
+// unsigned char ycData_MK[]={0x34,0x2a,0xfe,0x0,0xfd,0x54,0x1d,0x50,0x1d,0x61,0x1d,0x38,0x2,0x2a,0x2,0x28,0x2,0x2c,0x3,0xe8,0x13,0x89,0x00,0x64,0x0,0x13,0x2,0xcd,0x34,0x2a,0xfe,0x0,0x0,0x0,0x0,0x0,0x2,0xa,0x0,0x0,0x2,0x3e,0x0,0x0,0x0,0x6,0x0,0x0,0x2,0x3e,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0};
+unsigned char ycData_MK[] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1d, 0x58, 0x1d, 0x24, 0x1d, 0x3b, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x13, 0x87, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xff, 0xee, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x1, 0x11, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x6, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x6, 0x0, 0x0, 0x0, 0x0};
 unsigned short val_qw[6][6];
 unsigned short val_pw[6][6];
 unsigned short cmd_start_pcs[6][6];
 unsigned short status_pcs_lcd[6][6];
 
-int g_lcd_status_end =0;
+int g_lcd_status_end = 0;
 int check_task_finished(int lcdid, int pcsid, int taskid)
 {
-	static int taskid_last[] = {0,0};
-	static unsigned char flag_recv_pcs[2][6] = {{0, 0, 0, 0, 0, 0},{0, 0, 0, 0, 0, 0}};
-	static int flag_recv_lcd[] = {0,0};
+	static int taskid_last[] = {0, 0};
+	static unsigned char flag_recv_pcs[2][6] = {{0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0}};
+	static int flag_recv_lcd[] = {0, 0};
 	int i;
-		printf("aaa taskid=%d check_task_finished lcdid=%d  pcsid=%d lcd=%x  pcs=%x %x %x %x %x %x \n",taskid,lcdid, pcsid,g_flag_RecvNeed_LCD,flag_RecvNeed_PCS[0],flag_RecvNeed_PCS[1],flag_RecvNeed_PCS[2],
-	flag_RecvNeed_PCS[3],flag_RecvNeed_PCS[4],flag_RecvNeed_PCS[5]);
-	if (taskid_last[taskid-1] != taskid)
+	printf("aaa taskid=%d check_task_finished lcdid=%d  pcsid=%d lcd=%x  pcs=%x %x %x %x %x %x \n", taskid, lcdid, pcsid, g_flag_RecvNeed_LCD, flag_RecvNeed_PCS[0], flag_RecvNeed_PCS[1], flag_RecvNeed_PCS[2],
+		   flag_RecvNeed_PCS[3], flag_RecvNeed_PCS[4], flag_RecvNeed_PCS[5]);
+	if (taskid_last[taskid - 1] != taskid)
 	{
-		flag_recv_lcd[taskid-1] = 0;
+		flag_recv_lcd[taskid - 1] = 0;
 		for (i = 0; i < 6; i++)
-			flag_recv_pcs[taskid-1][i] = 0;
+			flag_recv_pcs[taskid - 1][i] = 0;
 
-		flag_recv_pcs[taskid-1][lcdid] |= (1 << (pcsid - 1));
-		taskid_last[taskid-1] = taskid;
+		flag_recv_pcs[taskid - 1][lcdid] |= (1 << (pcsid - 1));
+		taskid_last[taskid - 1] = taskid;
 		return 0;
-
 	}
-	flag_recv_pcs[taskid-1][lcdid] |= (1 << (pcsid - 1));
-	if (flag_recv_pcs[taskid-1][lcdid] == flag_RecvNeed_PCS[lcdid])
+	flag_recv_pcs[taskid - 1][lcdid] |= (1 << (pcsid - 1));
+	if (flag_recv_pcs[taskid - 1][lcdid] == flag_RecvNeed_PCS[lcdid])
 	{
-
-		flag_recv_lcd[taskid-1] |= (1 << lcdid);
+		flag_recv_lcd[taskid - 1] |= (1 << lcdid);
 	}
-	if (flag_recv_lcd[taskid-1] == g_flag_RecvNeed_LCD)
+	if (flag_recv_lcd[taskid - 1] == g_flag_RecvNeed_LCD)
 	{
-		printf("111check_task_finished lcd=%x  pcs=%x %x %x %x %x %x\n",flag_recv_lcd[taskid-1],flag_recv_pcs[taskid-1][0],flag_recv_pcs[taskid-1][1],flag_recv_pcs[taskid-1][2],
-	    flag_recv_pcs[taskid-1][3],flag_recv_pcs[taskid-1][4],flag_recv_pcs[taskid-1][5]);
-		taskid_last[taskid-1] = 0;
+		printf("111check_task_finished lcd=%x  pcs=%x %x %x %x %x %x\n", flag_recv_lcd[taskid - 1], flag_recv_pcs[taskid - 1][0], flag_recv_pcs[taskid - 1][1], flag_recv_pcs[taskid - 1][2],
+			   flag_recv_pcs[taskid - 1][3], flag_recv_pcs[taskid - 1][4], flag_recv_pcs[taskid - 1][5]);
+		taskid_last[taskid - 1] = 0;
 		return taskid;
 	}
 
-	printf("000check_task_finished lcd=%x pcs=%x %x %x %x %x %x\n",flag_recv_lcd[taskid-1],flag_recv_pcs[taskid-1][0],flag_recv_pcs[taskid-1][1],flag_recv_pcs[taskid-1][2],
-	flag_recv_pcs[taskid-1][3],flag_recv_pcs[taskid-1][4],flag_recv_pcs[taskid-1][5]);
+	printf("000check_task_finished lcd=%x pcs=%x %x %x %x %x %x\n", flag_recv_lcd[taskid - 1], flag_recv_pcs[taskid - 1][0], flag_recv_pcs[taskid - 1][1], flag_recv_pcs[taskid - 1][2],
+		   flag_recv_pcs[taskid - 1][3], flag_recv_pcs[taskid - 1][4], flag_recv_pcs[taskid - 1][5]);
 	return 0;
-
 }
 
 int checkOn_off_finish(int lcdid, int pcsid, int flag)
@@ -96,6 +98,7 @@ int checkOn_off_finish(int lcdid, int pcsid, int flag)
 	}
 	return 0;
 }
+
 unsigned char getPcsid(unsigned short reg_addr)
 {
 	unsigned char pcsid = 0;
@@ -175,7 +178,6 @@ int BakLcdFun03(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 	unsigned char pdata[256];
 	unsigned char pcsid;
 
-
 	if (reg_addr == 0x1246)
 	{
 		pdata[0] = yx1246[id_thread] / 256;
@@ -186,13 +188,13 @@ int BakLcdFun03(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 	else if (reg_addr == 0x1240)
 	{
 		printf("整机遥信功能码0x03，lcd[%d]整机遥信，数据长度=14 \n", id_thread);
-		memcpy(pdata , yxData_ZJ_1240,sizeof(yxData_ZJ_1240));
+		memcpy(pdata, yxData_ZJ_1240, sizeof(yxData_ZJ_1240));
 		len = 14;
 	}
 	else if (reg_addr == 0x1200 || reg_addr == 0x1210 || reg_addr == 0x1220 || reg_addr == 0x1230 || reg_addr == 0x1250 || reg_addr == 0x1260)
 	{
 		pcsid = getPcsid(reg_addr);
-		memcpy(pdata , yxData_MK,sizeof(yxData_MK));
+		memcpy(pdata, yxData_MK, sizeof(yxData_MK));
 		if (cmd_start_pcs[id_thread][pcsid - 1] == 0xff00)
 		{
 			pdata[u16_InvRunState1 * 2] = 0x40;
@@ -201,35 +203,40 @@ int BakLcdFun03(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 			myprintbuf(30, pdata);
 		}
 		else
-		    printf("关机情况下的遥信数据\n");
+			printf("关机情况下的遥信数据\n");
 		len = 30;
 		printf("模块遥信功能码0x03，lcd[%d]，模块编号pcsid=%d 遥信数据长度=30 \n", id_thread, pcsid);
 	}
 	else if (reg_addr == 0x1174)
 	{
 		printf("整机遥测功能码0x03，lcd[%d]整机遥测，数据长度=30 \n", id_thread);
-		memcpy(pdata , ycData_ZJ_1174,sizeof(ycData_ZJ_1174));
+		memcpy(pdata, ycData_ZJ_1174, sizeof(ycData_ZJ_1174));
 		len = 30;
 	}
 	else if (reg_addr == 0x1100 || reg_addr == 0x111D || reg_addr == 0x113A || reg_addr == 0x1157 || reg_addr == 0x1190 || reg_addr == 0x11AD)
 	{
 		pcsid = getPcsid(reg_addr);
-		
-		memcpy(pdata , ycData_MK,sizeof(ycData_MK));
-		short aw;
+
+		memcpy(pdata, ycData_MK, sizeof(ycData_MK));
+		short aw, tw = -500;
+		short qw = 100;
 		if (cmd_start_pcs[id_thread][pcsid - 1] == 0xff00)
 		{
-		    printf("开机情况下发送遥测数据 cmd_start_pcs[id_thread][pcsid - 1]=%x\n",cmd_start_pcs[id_thread][pcsid - 1]);
-			pdata[Active_power * 2] = val_pw[id_thread][pcsid - 1] / 256;
-			pdata[Active_power * 2 + 1] = val_pw[id_thread][pcsid - 1] % 256;
+			printf("开机情况下发送遥测数据 cmd_start_pcs[%d][%x]=%x\n", id_thread, pcsid - 1, cmd_start_pcs[id_thread][pcsid - 1]);
+			// pdata[Active_power * 2] = val_pw[id_thread][pcsid - 1] / 256;
+			// pdata[Active_power * 2 + 1] = val_pw[id_thread][pcsid - 1] % 256;
+			pdata[Active_power * 2] = qw / 256;
+			pdata[Active_power * 2 + 1] = qw % 256;
 			pdata[Reactive_power * 2] = val_qw[id_thread][pcsid - 1] / 256;
 			pdata[Reactive_power * 2 + 1] = val_qw[id_thread][pcsid - 1] % 256;
 			aw = Apparent_Power(val_pw[id_thread][pcsid - 1], val_qw[id_thread][pcsid - 1]);
 			pdata[Apparent_power * 2] = aw / 256;
 			pdata[Apparent_power * 2 + 1] = aw % 256;
+			pdata[Temperature_IGBT * 2] = tw / 256;
+			pdata[Temperature_IGBT * 2 + 1] = tw % 256;
 		}
 		else
-		 	printf("关机情况下发送遥测数据 cmd_start_pcs[id_thread][pcsid - 1]=%x\n",cmd_start_pcs[id_thread][pcsid - 1]);
+			printf("关机情况下发送遥测数据 cmd_start_pcs[%d][%x]=%x\n", id_thread, pcsid - 1, cmd_start_pcs[id_thread][pcsid - 1]);
 
 		len = 58;
 		printf("模块遥测功能码0x03，lcd[%d]，模块编号pcsid=%d 遥测数据长度=58 val=%d\n", id_thread, pcsid, val_qw[id_thread][pcsid - 1]);
@@ -315,39 +322,34 @@ int Analysfun06(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 	{
 		pcsid = getPcsid(reg_addr);
 		val_pw[id_thread][pcsid - 1] = val * 10;
-	    printf("在PQ并且恒功率模式下设置有功功率，设置lcdid=%d 模块编号pcsid=%d 为val=%d\n", id_thread, pcsid, val);
-			if (check_task_finished(id_thread, pcsid, ADJUST_PW) == ADJUST_PW)
+		printf("在PQ并且恒功率模式下设置有功功率，设置lcdid=%d 模块编号pcsid=%d 为val=%d\n", id_thread, pcsid, val);
+		if (check_task_finished(id_thread, pcsid, ADJUST_PW) == ADJUST_PW)
+		{
+			printf("LCD[%d]全部pcs收到有功功率调节指令 pcsid=%d val=%d\n", id_thread, pcsid, val);
+			if (g_sys_status_last == ADJUST_EMU_PW && g_sys_status == SER_IDEL)
 			{
-				printf("LCD[%d]全部pcs收到有功功率调节指令 pcsid=%d val=%d\n", id_thread,pcsid,val);
-				if (g_sys_status_last == ADJUST_EMU_PW && g_sys_status == SER_IDEL)
-				{
-					printf("设置EMU开机操作\n");
-					g_sys_status = EMS_START_EMU; 
-					g_sys_status_last = ADJUST_EMU_PW;
-					g_lcd_status_end = 1;
-				}				
-
+				printf("设置EMU开机操作\n");
+				g_sys_status = EMS_START_EMU;
+				g_sys_status_last = ADJUST_EMU_PW;
+				g_lcd_status_end = 1;
 			}
-
+		}
 	}
 	else if (reg_addr == 0x3002 || reg_addr == 0x3012 || reg_addr == 0x3022 || reg_addr == 0x3032 || reg_addr == 0x3062 || reg_addr == 0x3072)
 	{
 		pcsid = getPcsid(reg_addr);
 		val_qw[id_thread][pcsid - 1] = val * 10;
 		printf("在PQ并且恒功率模式下设置无功功率，设置lcdid=%d 模块编号pcsid=%d 为val=%d\n", id_thread, pcsid, val);
-			if (check_task_finished(id_thread, pcsid, ADJUST_QW) == ADJUST_QW)
+		if (check_task_finished(id_thread, pcsid, ADJUST_QW) == ADJUST_QW)
+		{
+			printf("LCD[%d]全部pcs收到无功功率调节指令 pcsid=%d val=%d g_sys_status_last=%d g_sys_status=%d\n", id_thread, pcsid, val, g_sys_status_last, g_sys_status);
+			if (g_sys_status_last == ADJUST_EMU_QW && g_sys_status == SER_IDEL)
 			{
-				printf("LCD[%d]全部pcs收到无功功率调节指令 pcsid=%d val=%d g_sys_status_last=%d g_sys_status=%d\n", id_thread,pcsid,val,g_sys_status_last,g_sys_status);
-				if (g_sys_status_last == ADJUST_EMU_QW && g_sys_status == SER_IDEL)
-				{
-					printf("设置EMU停机操作\n");
-					g_sys_status = EMS_STOP_EMU; 
-					g_sys_status_last = ADJUST_EMU_QW;
-				}
-
-
+				printf("设置EMU停机操作\n");
+				g_sys_status = EMS_STOP_EMU;
+				g_sys_status_last = ADJUST_EMU_QW;
 			}
-
+		}
 	}
 	else if (reg_addr == 0x3000 || reg_addr == 0x3010 || reg_addr == 0x3020 || reg_addr == 0x3030 || reg_addr == 0x3060 || reg_addr == 0x3070)
 	{
@@ -362,7 +364,7 @@ int Analysfun06(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 				if (g_sys_status_last == EMS_START_EMU && g_sys_status == SER_IDEL && g_lcd_status_end == 0)
 				{
 					printf("EMU设置进行无功功率调节\n");
-					g_sys_status = ADJUST_EMU_QW; //EMU设置进行无功功率调节
+					g_sys_status = ADJUST_EMU_QW; // EMU设置进行无功功率调节
 					g_sys_status_last = EMS_START_EMU;
 				}
 			}
@@ -376,9 +378,9 @@ int Analysfun06(int id_thread, unsigned char devid, unsigned short reg_addr, uns
 				if (g_sys_status_last == EMS_STOP_EMU && g_sys_status == SER_IDEL)
 				{
 					printf("EMU设置进行有功调节\n");
-					g_sys_status = ADJUST_EMU_PW; //EMU设置进行无功功率调节
+					g_sys_status = ADJUST_EMU_PW; // EMU设置进行无功功率调节
 					g_sys_status_last = EMS_STOP_EMU;
-				}				
+				}
 			}
 		}
 		else
@@ -411,8 +413,10 @@ int AnalysModbus(int id_thread, unsigned char *pdata, int len)
 	{
 		int num = emudata[4] * 256 + emudata[5];
 		BakLcdFun10(id_thread, devid, regAddr, num, num_frame);
-		if (regAddr == 0x3050) //功能码0x10，设置时间
+		if (regAddr == 0x3050) // 功能码0x10，设置时间
 			printf("功能码0x10，emu设置时间！！！！num=%d\n", num);
+		else if (regAddr == 0x2000)
+			printf("功能码0x10，设置功率！！！！num=%d\n", num);
 	}
 	else if (funid == 0x06)
 	{

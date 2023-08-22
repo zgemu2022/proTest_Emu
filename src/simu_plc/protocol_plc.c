@@ -51,7 +51,6 @@ int BakLcdFun03_plc(unsigned char devid, unsigned short reg_addr, unsigned short
 	}
 	else
 	{
-
 		printf("返回数据发送成功！！！！\n");
 	}
 	return 0;

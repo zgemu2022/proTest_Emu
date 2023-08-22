@@ -34,11 +34,10 @@ void *serial_thread(void *arg)
 {
 
 	int portid = (int)arg;
-	int pcsid;
+	int pcsid = 0;
 	int num_send = 0;
-	pcsid = 0;
 	int res;
-	printf("serial_thread 端口号 =%d pcs数量=%d\"n", portid, pParaBams->pcs_num[portid]);
+	printf("serial_thread 端口号 =%d pcs数量=%d\n", portid, pParaBams->pcs_num[portid]);
 	if (pParaBams->pcs_num[portid] == 0)
 	{
 		while (1)
@@ -52,15 +51,16 @@ void *serial_thread(void *arg)
 	while (1)
 	{
 
-		res = doFunTasks(portid, &pcsid, &num_send);
+		res = doFunTasks(portid, &pcsid);
 		if (res == 0)
 		{
-			printf("收到返回数据！！！！！portid=%d\n", portid);
+			printf("收到返回数据！！！！！portid=%d \n", portid);
 		}
 		else
 			printf("未能收到返回数据！！！！！res=%d portid=%d\n", res, portid);
 		// sleep(1);
-		usleep(500000); //延时500ms
+		printf("当前BAMS 端口portid=%d pcsid=%d\n", portid, pcsid);
+		usleep(500000); // 延时500ms
 	}
 }
 
@@ -71,22 +71,20 @@ void CreateThreads_BAMS(void *para)
 	int i;
 
 	pParaBams = (PARA_BAMS *)para;
-	pParaBams->pcs_num[0] = 0;
-	pParaBams->pcs_num[1] = 0;
 
-	for (i = 0; i < 3; i++)
-	{
-		if (modbus_sockt_state_set[i] != 0)
-			pParaBams->pcs_num[0] += yx1246[i];
-	}
+	// for (i = 0; i < 3; i++)
+	// {
+	// 	if (modbus_sockt_state_set[i] != 0)
+	// 		pParaBams->pcs_num[0] += yx1246[i];
+	// }
 
-	for (i = 3; i < 6; i++)
-	{
-		if (modbus_sockt_state_set[i] != 0)
-			pParaBams->pcs_num[1] += yx1246[i];
-	}
-	printf("每个BAMS中pcs数量 %d %d \n", pParaBams->pcs_num[0], pParaBams->pcs_num[1]);
-	printf("xxxxxxxxxxxxxxxx\n");
+	// for (i = 3; i < 6; i++)
+	// {
+	// 	if (modbus_sockt_state_set[i] != 0)
+	// 		pParaBams->pcs_num[1] += yx1246[i];
+	// }
+
+	printf("BAMS 的个数 =%d 每个BAMS中pcs数量 %d %d \n", pParaBams->portnum, pParaBams->pcs_num[0], pParaBams->pcs_num[1]);
 	for (i = 0; i < pParaBams->portnum; i++)
 	{
 

@@ -26,7 +26,8 @@ typedef struct{
     int port;
 }CONF;
 
-CONF server_conf = {{"192.168.2.230"},2502};
+// CONF server_conf = {{"192.168.2.230"},2502};
+CONF server_conf = {{"192.168.5.225"},2502};
 int g_comm_qmegid_plc;
 void *Plc_clientSend_thread(void *arg) // 25
 {
@@ -74,13 +75,14 @@ void *Plc_clientSend_thread(void *arg) // 25
             
 			continue;
 		}
-		else
-		    printf("PLC无数据传入\n");
+		// else
+		    // printf("PLC无数据传入\n");
 
 		//		RunAccordingtoStatus(id_thread);
 	}
 	return NULL;
 }
+
 static int recvFrame(int fd, int qid, MyData *recvbuf)
 {
 	int readlen;
@@ -135,6 +137,7 @@ void *Plc_clientRecv_thread(void *arg) // 25
 	while (1)
 	{
 		fd = modbus_client_sockptr_plc;
+		// printf("zzzzfd1:%d\n",fd);
 		if (fd == -1)
 			break;
 		FD_ZERO(&maxFd);
@@ -143,6 +146,7 @@ void *Plc_clientRecv_thread(void *arg) // 25
 		//    tv.tv_usec = 50000;
 		tv.tv_usec = 8000;
 		ret = select(fd + 1, &maxFd, NULL, NULL, &tv);
+		// printf("aaa ret:%d\n",ret);
 		if (ret < 0)
 		{
 
@@ -167,7 +171,7 @@ void *Plc_clientRecv_thread(void *arg) // 25
 
 			jj = 0;
 
-			// printf("貌似收到数据！！！！！！！！！！！！");
+			//  printf("貌似收到数据！！！！！！！！！！！！");
 			if (FD_ISSET(fd, &maxFd))
 			{
 				ret = recvFrame(fd, g_comm_qmegid_plc, &recvbuf);
@@ -251,6 +255,7 @@ void *Plc_ServerConnectThread(void *arg)
 		if (modbus_sockt_state_plc == STATUS_OFF)
 		{
 			client_sockptr = _socket_server_listen(server_sock);
+			printf("!!!!!client_sockptr:%d \n",client_sockptr);
 			if (client_sockptr > 0)
 			{
 				modbus_sockt_state_plc = STATUS_ON;
