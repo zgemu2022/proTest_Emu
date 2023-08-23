@@ -37,7 +37,7 @@ void *Modbus_clientSend_thread(void *arg) // 25
 	while (modbus_sockt_state[id_thread] == STATUS_ON) //
 	{
 		// printf("wait_flag:%d\n", wait_flag);
-		ret_value = os_rev_msgqueue(g_comm_qmegid[id_thread], &pmsg, sizeof(msgClient), 0, 100);
+		ret_value = os_rev_msgqueue(g_comm_qmegid[id_thread], &pmsg, sizeof(msgClient), 0, 10);
 		if (ret_value >= 0)
 		{
 			memcpy((char *)&pcsdata, pmsg.data, sizeof(MyData));
@@ -93,7 +93,7 @@ static int recvFrame(int fd, int qid, MyData *recvbuf)
 	if (msgsnd(qid, &msg, sizeof(msgClient), IPC_NOWAIT) != -1)
 	{
 
-		printf("succ succ succ succ !!!!!!!"); //连接主站的网络参数I
+		printf("succ succ succ succ !!!!!!!"); // 连接主站的网络参数I
 		return 0;
 	}
 	else
